@@ -281,6 +281,253 @@
     </script>
 </body>
 </html>
+    <section class="max-w-7xl mx-auto px-6 pt-10 text-center">
+        <div class="flex flex-wrap gap-2 justify-center overflow-x-auto pb-6" id="filterArea">
+            <button onclick="window.filterByGame('Tümü')" class="filter-chip active">Tümü</button>
+            <button onclick="window.filterByGame('PUBG Mobile')" class="filter-chip">PUBG Mobile</button>
+            <button onclick="window.filterByGame('Brawl Stars')" class="filter-chip">Brawl Stars</button>
+            <button onclick="window.filterByGame('Roblox')" class="filter-chip">Roblox</button>
+            <button onclick="window.filterByGame('Car Parking')" class="filter-chip">Car Parking</button>
+            <button onclick="window.filterByGame('JoyArk')" class="filter-chip">JoyArk</button>
+        </div>
+    </section>
+
+    <main class="max-w-7xl mx-auto p-6">
+        <div id="ilanList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+    </main>
+
+    <div id="profileModal" class="hidden fixed inset-0 z-[200] bg-black/90 flex items-center justify-center p-4">
+        <div class="glass p-8 rounded-3xl w-full max-w-md text-center relative">
+            <div class="relative w-24 h-24 mx-auto mb-4">
+                <img id="pfpDisplay" src="" class="w-24 h-24 rounded-full border-4 border-indigo-600 object-cover">
+                <label for="pfpUpload" class="absolute bottom-0 right-0 bg-green-500 w-8 h-8 rounded-full flex items-center justify-center cursor-pointer border-2 border-white">
+                    <i class="fas fa-camera text-xs text-white"></i>
+                    <input type="file" id="pfpUpload" class="hidden" accept="image/*" onchange="window.updateProfilePic(event)">
+                </label>
+            </div>
+            <h2 id="profEmail" class="text-lg font-bold mb-1 truncate text-white"></h2>
+            <p id="verifyStatusText" class="text-[10px] mb-4"></p>
+            <div class="grid grid-cols-2 gap-4 my-6">
+                <div onclick="window.filterByMyAds(); window.closeModal('profileModal')" class="bg-white/5 p-4 rounded-xl cursor-pointer hover:bg-white/10">
+                    <span id="profCount" class="block text-xl font-bold text-indigo-400">0</span>
+                    <span class="text-[10px] text-gray-500 uppercase">İlanlarım</span>
+                </div>
+                <div class="bg-white/5 p-4 rounded-xl"><span class="block text-xl font-bold text-green-400">AKTİF</span><span class="text-[10px] text-gray-500">HESAP</span></div>
+            </div>
+            <button onclick="window.cikis()" class="w-full py-2 bg-red-500/10 text-red-500 text-xs font-bold uppercase rounded-lg">Çıkış Yap</button>
+            <button onclick="window.closeModal('profileModal')" class="mt-4 text-gray-600 text-[10px]">KAPAT</button>
+        </div>
+    </div>
+
+    <div id="authModal" class="hidden fixed inset-0 z-[200] bg-black/90 flex items-center justify-center p-4">
+        <div class="glass p-8 rounded-2xl w-full max-w-md">
+            <h2 id="authTitle" class="text-2xl font-gaming font-bold mb-6 text-white uppercase">GİRİŞ YAP</h2>
+            <div class="space-y-4">
+                <input type="email" id="email" placeholder="E-posta" class="input-box">
+                <input type="password" id="pass" placeholder="Şifre" class="input-box">
+                <button onclick="window.handleAuth()" id="authBtn" class="w-full neon-btn py-3 rounded-xl font-bold uppercase">GİRİŞ</button>
+                <div class="flex justify-between text-xs text-gray-400">
+                    <span onclick="window.resetPassword()" class="cursor-pointer hover:text-white">Şifremi Unuttum</span>
+                    <span onclick="window.switchAuth()" class="cursor-pointer hover:text-white">Kayıt Ol</span>
+                </div>
+                <button onclick="window.closeModal('authModal')" class="w-full text-gray-600 text-[10px] mt-4 uppercase">Kapat</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="postModal" class="hidden fixed inset-0 z-[200] bg-black/95 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="glass p-8 rounded-2xl w-full max-w-2xl my-auto">
+            <h2 class="text-xl font-gaming font-bold mb-6 text-indigo-400 uppercase">YENİ İLAN</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <select id="pGame" class="input-box">
+                    <option>PUBG Mobile</option><option>Brawl Stars</option><option>Roblox</option><option>Car Parking</option><option>JoyArk</option>
+                </select>
+                <input type="text" id="pTitle" placeholder="Başlık" class="input-box">
+                <input type="number" id="pPrice" placeholder="Fiyat (₺)" class="input-box">
+                <input type="tel" id="pPhone" placeholder="WhatsApp No" class="input-box">
+                <textarea id="pDesc" placeholder="Hesap Detayları..." class="input-box md:col-span-2 h-24"></textarea>
+                <div class="md:col-span-2">
+                    <input type="file" id="pFiles" multiple accept="image/*" class="hidden" onchange="window.previewImages(event)">
+                    <label for="pFiles" class="bg-white/5 border border-dashed border-white/20 p-4 rounded-xl block cursor-pointer text-xs text-center text-gray-400 uppercase">RESİM SEÇ</label>
+                    <div id="preArea" class="flex flex-wrap gap-2 mt-2"></div>
+                </div>
+            </div>
+            <button onclick="window.publishIlan()" id="pubBtn" class="w-full neon-btn mt-6 py-4 rounded-xl font-bold uppercase">YAYINLA</button>
+            <button onclick="window.closeModal('postModal')" class="w-full text-gray-600 text-[10px] mt-4">İPTAL</button>
+        </div>
+    </div>
+
+    <div class="fixed bottom-6 right-6 z-50">
+        <button onclick="window.checkAuthAndPost()" class="w-14 h-14 bg-indigo-600 rounded-full shadow-2xl flex items-center justify-center text-white text-3xl font-bold">+</button>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendEmailVerification, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+        const fbConfig = {
+            apiKey: "AIzaSyAmZ2X3yEMKa4rR-EneI-RVWOXmNWD8-6E",
+            authDomain: "berksashare.firebaseapp.com",
+            projectId: "berksashare",
+            storageBucket: "berksashare.firebasestorage.app",
+            messagingSenderId: "53350543644",
+            appId: "1:53350543644:web:9dc8a40597e566ff1f4ad9"
+        };
+        const sUrl = 'https://vkjodymflqhgaowqjoji.supabase.co';
+        const sKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZram9keW1mbHFoZ2Fvd3Fqb2ppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2NzYwNjEsImV4cCI6MjA4NzI1MjA2MX0.PqJvklvLka_LIqYJYmIEVGlmaw2Nh_zGt03JeZQGnVI';
+
+        const app = initializeApp(fbConfig);
+        const auth = getAuth(app);
+        const supabase = createClient(sUrl, sKey);
+
+        let userObj = null, allIlanlar = [], isLogin = true, base64Images = [];
+
+        window.openModal = (id) => document.getElementById(id).classList.remove('hidden');
+        window.closeModal = (id) => document.getElementById(id).classList.add('hidden');
+        
+        window.cikis = async () => {
+            try { await signOut(auth); location.reload(); } catch (e) { alert(e.message); }
+        };
+
+        // CANLI ARAMA FONKSİYONU
+        window.liveSearch = (val) => {
+            const filtered = allIlanlar.filter(i => 
+                i.baslik.toLowerCase().includes(val.toLowerCase()) || 
+                i.oyun.toLowerCase().includes(val.toLowerCase())
+            );
+            window.renderIlanlar(filtered);
+        };
+
+        // PROFİL RESMİ GÜNCELLEME (LOCALSTORAGE ŞİMDİLİK)
+        window.updateProfilePic = (e) => {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const b64 = ev.target.result;
+                localStorage.setItem(`pfp_${userObj.email}`, b64);
+                document.getElementById('pfpDisplay').src = b64;
+                document.querySelector('.profile-img').src = b64;
+            };
+            reader.readAsDataURL(file);
+        };
+
+        window.handleAuth = async () => {
+            const e = document.getElementById('email').value, p = document.getElementById('pass').value;
+            if(!e || !p) return alert("Boş bırakma knk");
+            try {
+                if(isLogin) { await signInWithEmailAndPassword(auth, e, p); }
+                else {
+                    const res = await createUserWithEmailAndPassword(auth, e, p);
+                    await sendEmailVerification(res.user);
+                    alert("Onay maili gönderildi, kontrol et!");
+                }
+                location.reload();
+            } catch(err) { alert(err.message); }
+        };
+
+        window.publishIlan = async () => {
+            if(!userObj.emailVerified) return alert("Önce mailini onayla knk!");
+            const btn = document.getElementById('pubBtn');
+            btn.disabled = true; btn.innerText = "Yükleniyor...";
+            const d = {
+                baslik: document.getElementById('pTitle').value,
+                aciklama: document.getElementById('pDesc').value,
+                oyun: document.getElementById('pGame').value,
+                fiyat: Number(document.getElementById('pPrice').value),
+                telefon: document.getElementById('pPhone').value,
+                user_email: userObj.email,
+                resim_urlleri: base64Images
+            };
+            const { error } = await supabase.from('ilanlar').insert([d]);
+            if(error) alert(error.message); else location.reload();
+        };
+
+        window.deleteIlan = async (id) => {
+            if(!confirm("İlanı silmek istediğine emin misin?")) return;
+            const { error } = await supabase.from('ilanlar').delete().eq('id', id);
+            if(!error) location.reload();
+        };
+
+        window.renderIlanlar = (list) => {
+            const div = document.getElementById('ilanList');
+            div.innerHTML = list.map(i => {
+                const canDel = userObj && (userObj.email === i.user_email || userObj.email === 'berksplaysation@gmail.com');
+                return `
+                <div class="glass p-4 rounded-2xl relative border border-white/5 group">
+                    ${canDel ? `<div onclick="window.deleteIlan(${i.id})" class="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg cursor-pointer text-[10px] z-10 transition"><i class="fas fa-trash"></i> SİL</div>` : ''}
+                    <img src="${i.resim_urlleri[0] || 'https://via.placeholder.com/400x300'}" class="w-full h-40 object-cover rounded-xl mb-3">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-[10px] text-indigo-400 font-bold uppercase">${i.oyun}</span>
+                        <span class="text-green-400 font-bold">${i.fiyat} ₺</span>
+                    </div>
+                    <h3 class="font-bold truncate text-sm mb-4">${i.baslik}</h3>
+                    <div class="flex gap-2">
+                        <a href="https://wa.me/${i.telefon.replace(/[^0-9]/g,'')}" target="_blank" class="flex-1 bg-green-600/20 text-green-500 py-2 rounded-lg text-center text-xs font-bold hover:bg-green-600 hover:text-white transition">WhatsApp</a>
+                    </div>
+                </div>`;
+            }).join('');
+        };
+
+        window.previewImages = (e) => {
+            const pre = document.getElementById('preArea'); pre.innerHTML = ""; base64Images = [];
+            Array.from(e.target.files).slice(0, 5).forEach(f => {
+                const r = new FileReader();
+                r.onload = (ev) => {
+                    const i = document.createElement('img'); i.src = ev.target.result; i.className = "w-12 h-12 object-cover rounded border border-indigo-500";
+                    pre.appendChild(i); base64Images.push(ev.target.result);
+                };
+                r.readAsDataURL(f);
+            });
+        };
+
+        window.filterByGame = (g) => {
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c.innerText === g));
+            window.renderIlanlar(g === 'Tümü' ? allIlanlar : allIlanlar.filter(i => i.oyun === g));
+        };
+
+        window.filterByMyAds = () => window.renderIlanlar(allIlanlar.filter(i => i.user_email === userObj.email));
+
+        window.openProfile = () => {
+            document.getElementById('profCount').innerText = allIlanlar.filter(i => i.user_email === userObj.email).length;
+            window.openModal('profileModal');
+        };
+
+        onAuthStateChanged(auth, async (u) => {
+            userObj = u;
+            if(u) {
+                const savedPfp = localStorage.getItem(`pfp_${u.email}`);
+                const pfp = savedPfp || `https://api.dicebear.com/7.x/initials/svg?seed=${u.email}`;
+                document.getElementById('userStatus').innerHTML = `<img src="${pfp}" onclick="window.openProfile()" class="profile-img">`;
+                document.getElementById('profEmail').innerText = u.email;
+                document.getElementById('pfpDisplay').src = pfp;
+                document.getElementById('verifyStatusText').innerHTML = u.emailVerified ? "<span class='text-green-500 font-bold'>ONAYLI ✅</span>" : "<span class='text-yellow-500 font-bold'>ONAY BEKLENİYOR ⚠️</span>";
+            }
+            const { data } = await supabase.from('ilanlar').select('*').order('created_at', { ascending: false });
+            allIlanlar = data || [];
+            window.renderIlanlar(allIlanlar);
+            document.getElementById('loader').style.opacity = '0';
+            setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
+        });
+
+        window.resetPassword = async () => {
+            const e = document.getElementById('email').value;
+            if(!e) return alert("Email yaz!");
+            await sendPasswordResetEmail(auth, e);
+            alert("Şifre sıfırlama linki yollandı knk.");
+        };
+
+        window.switchAuth = () => {
+            isLogin = !isLogin;
+            document.getElementById('authTitle').innerText = isLogin ? "GİRİŞ YAP" : "KAYIT OL";
+            document.getElementById('authBtn').innerText = isLogin ? "GİRİŞ" : "KAYIT OL";
+        };
+
+        window.checkAuthAndPost = () => userObj ? window.openModal('postModal') : window.openModal('authModal');
+        window.kopyala = (t) => { navigator.clipboard.writeText(t); alert("Kopyalandı!"); };
+    </script>
+</body>
+</html>
                 await sendEmailVerification(res.user);
                     alert("Onay maili gönderildi, kontrol et!");
                 }
