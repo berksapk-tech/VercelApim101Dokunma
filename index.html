@@ -3,47 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>BerksShops | Pro Edition</title>
+    <title>BerksShops | Fixed v5</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         :root { --accent: #f39c12; --bg: #0f1014; --card: #1a1c23; }
         body { background-color: var(--bg); color: #fff; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         .itemsatis-card { background: var(--card); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); overflow: hidden; position: relative; }
-        .btn-orange { background: var(--accent); color: #000; font-weight: 900; cursor: pointer; }
-        .input-dark { background: #252831; border: 1px solid #363945; color: white; outline: none; padding: 12px; border-radius: 12px; font-size: 14px; }
+        .btn-orange { background: var(--accent); color: #000; font-weight: 900; }
+        .input-dark { background: #252831; border: 1px solid #363945; color: white; outline: none; padding: 12px; border-radius: 12px; width: 100%; }
         .nav-blur { background: rgba(15, 16, 20, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #252831; }
         #loader { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; align-items: center; justify-content: center; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
+        /* Tıklama Alanı Genişletme */
+        .clickable { cursor: pointer; transition: 0.2s; }
+        .clickable:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
 
     <div id="loader"><div class="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div></div>
 
-    <nav class="nav-blur sticky top-0 z-[100] px-4 py-3">
+    <nav class="nav-blur sticky top-0 z-[200] px-4 py-3">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="location.reload()">
-                <div class="bg-orange-500 p-1.5 rounded-lg text-black font-black">B</div>
+            <div class="flex items-center gap-2 clickable" onclick="location.reload()">
+                <div class="bg-orange-500 p-1.5 rounded-lg text-black font-black italic">B</div>
                 <h1 class="text-xl font-black uppercase italic">BERKS<span class="text-orange-500">SHOPS</span></h1>
             </div>
-            <div id="userStatus"></div>
+            <div id="userStatus" class="relative"></div>
         </div>
     </nav>
 
-    <div class="max-w-7xl mx-auto px-4 mt-6">
-        <div class="flex gap-2 overflow-x-auto no-scrollbar">
-            <button onclick="window.filterByGame('Tümü')" class="bg-orange-500 text-black px-6 py-2 rounded-xl text-xs font-black whitespace-nowrap">TÜMÜ</button>
-            <button onclick="window.filterByGame('PUBG Mobile')" class="bg-white/5 px-6 py-2 rounded-xl text-xs font-black whitespace-nowrap">PUBG</button>
-            <button onclick="window.filterByGame('Brawl Stars')" class="bg-white/5 px-6 py-2 rounded-xl text-xs font-black whitespace-nowrap">BRAWL</button>
-            <button onclick="window.filterByGame('Roblox')" class="bg-white/5 px-6 py-2 rounded-xl text-xs font-black whitespace-nowrap">ROBLOX</button>
+    <div class="max-w-7xl mx-auto px-4 mt-6 relative z-[150]">
+        <div class="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+            <button onclick="window.filterByGame('Tümü')" class="clickable bg-orange-500 text-black px-6 py-2.5 rounded-xl text-xs font-black whitespace-nowrap shadow-lg shadow-orange-500/10">TÜMÜ</button>
+            <button onclick="window.filterByGame('PUBG Mobile')" class="clickable bg-white/5 hover:bg-white/10 px-6 py-2.5 rounded-xl text-xs font-black whitespace-nowrap">PUBG</button>
+            <button onclick="window.filterByGame('Brawl Stars')" class="clickable bg-white/5 hover:bg-white/10 px-6 py-2.5 rounded-xl text-xs font-black whitespace-nowrap">BRAWL</button>
+            <button onclick="window.filterByGame('Roblox')" class="clickable bg-white/5 hover:bg-white/10 px-6 py-2.5 rounded-xl text-xs font-black whitespace-nowrap">ROBLOX</button>
         </div>
     </div>
 
-    <main class="max-w-7xl mx-auto px-4 mt-6 pb-24">
+    <main class="max-w-7xl mx-auto px-4 mt-4 pb-24">
         <div id="ilanList" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
     </main>
+
+    <div id="profileMenu" class="hidden fixed inset-0 z-[300] bg-black/80 flex items-center justify-center p-6">
+        <div class="bg-[#1a1c23] w-full max-w-xs rounded-3xl p-6 border border-white/5 text-center">
+            <div id="profIcon" class="w-16 h-16 bg-orange-500 rounded-full mx-auto mb-4 flex items-center justify-center text-2xl font-black text-black"></div>
+            <h3 id="profEmail" class="text-sm font-bold mb-6 text-gray-400"></h3>
+            <div class="space-y-3">
+                <button onclick="window.openModal('postModal'); window.closeModal('profileMenu')" class="w-full py-4 bg-white/5 rounded-2xl font-black text-xs uppercase">İlan Ver</button>
+                <button onclick="window.handleSignOut()" class="w-full py-4 bg-red-500/10 text-red-500 rounded-2xl font-black text-xs uppercase">Çıkış Yap</button>
+                <button onclick="window.closeModal('profileMenu')" class="w-full py-3 text-gray-600 text-[10px] font-bold uppercase">Kapat</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="postModal" class="hidden fixed inset-0 z-[400] bg-black/95 p-4 overflow-y-auto">
+        <div class="bg-[#1a1c23] p-6 rounded-3xl max-w-md mx-auto my-10 border border-white/10">
+            <h2 class="text-orange-500 font-black mb-6 text-2xl uppercase italic text-center">YENİ İLAN</h2>
+            <div class="space-y-4">
+                <input id="pTitle" type="text" placeholder="Başlık" class="input-dark">
+                <select id="pGame" class="input-dark">
+                    <option>PUBG Mobile</option><option>Brawl Stars</option><option>Roblox</option>
+                </select>
+                <div class="grid grid-cols-2 gap-2">
+                    <select id="pCountry" class="input-dark"><option value="90">🇹🇷 +90</option><option value="994">🇦🇿 +994</option></select>
+                    <select id="pPlatform" class="input-dark"><option value="wp">WhatsApp</option><option value="tg">Telegram</option></select>
+                </div>
+                <input id="pPhone" type="tel" placeholder="Numara (Sıfırsız)" class="input-dark">
+                <input id="pPrice" type="number" placeholder="Fiyat (₺)" class="input-dark">
+                <textarea id="pDesc" placeholder="Açıklama..." class="input-dark h-24"></textarea>
+                <input type="file" id="pFile" hidden onchange="window.handleFile(event)">
+                <label for="pFile" class="block border-2 border-dashed border-gray-800 p-6 text-center rounded-2xl cursor-pointer text-[10px] font-black text-gray-500">RESİM SEÇ</label>
+                <div id="preV" class="flex justify-center"></div>
+                <button id="pubBtn" onclick="window.publish()" class="clickable w-full btn-orange py-5 rounded-2xl text-lg italic uppercase">Yayınla</button>
+                <button onclick="window.closeModal('postModal')" class="w-full text-gray-600 text-[10px] font-bold mt-2 uppercase">İptal</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="authModal" class="hidden fixed inset-0 z-[400] bg-black/95 flex items-center justify-center p-4">
+        <div class="bg-[#1a1c23] p-8 rounded-3xl w-full max-w-sm text-center">
+            <h2 class="text-2xl font-black mb-6 italic uppercase">Giriş Yap</h2>
+            <input id="ae" type="email" placeholder="E-posta" class="input-dark mb-3">
+            <input id="ap" type="password" placeholder="Şifre" class="input-dark mb-6">
+            <button onclick="window.authAction()" class="clickable w-full btn-orange py-4 rounded-2xl font-black uppercase">Giriş / Kayıt</button>
+        </div>
+    </div>
 
     <div id="detailModal" class="hidden fixed inset-0 z-[500] bg-black/95 flex items-center justify-center p-4">
         <div class="bg-[#1a1c23] p-5 rounded-3xl w-full max-w-sm border border-white/5 text-center">
@@ -52,56 +100,13 @@
             <p id="detUser" class="text-[10px] text-gray-500 mb-4 flex items-center justify-center gap-1"></p>
             <div class="bg-black/20 p-4 rounded-xl text-sm text-gray-300 mb-6 text-left" id="detDesc"></div>
             <div class="flex gap-2">
-                <a id="detBtn" target="_blank" class="flex-1 btn-orange py-4 rounded-2xl text-sm uppercase">İletişime Geç</a>
+                <a id="detBtn" target="_blank" class="clickable flex-1 py-4 rounded-2xl text-xs font-black uppercase text-center flex items-center justify-center">İLETİŞİM</a>
                 <button onclick="window.closeModal('detailModal')" class="bg-white/5 px-6 rounded-2xl text-xs font-bold">KAPAT</button>
             </div>
         </div>
     </div>
 
-    <div id="postModal" class="hidden fixed inset-0 z-[500] bg-black/95 p-4 overflow-y-auto">
-        <div class="bg-[#1a1c23] p-6 rounded-3xl max-w-md mx-auto my-10 border border-white/5">
-            <h2 class="text-orange-500 font-black mb-6 text-2xl uppercase italic text-center">İLAN PAYLAŞ</h2>
-            <div class="flex flex-col gap-4">
-                <input id="pTitle" type="text" placeholder="İlan Başlığı" class="input-dark">
-                <select id="pGame" class="input-dark">
-                    <option>PUBG Mobile</option><option>Brawl Stars</option><option>Roblox</option>
-                </select>
-                <input id="pPrice" type="number" placeholder="Fiyat (₺)" class="input-dark">
-                
-                <div class="grid grid-cols-2 gap-2">
-                    <select id="pCountry" class="input-dark">
-                        <option value="90">🇹🇷 +90 (TR)</option>
-                        <option value="994">🇦🇿 +994 (AZ)</option>
-                    </select>
-                    <select id="pPlatform" class="input-dark">
-                        <option value="wp">WhatsApp</option>
-                        <option value="tg">Telegram</option>
-                    </select>
-                </div>
-                
-                <input id="pPhone" type="tel" placeholder="Numara (Başında 0 olmadan)" class="input-dark">
-                <textarea id="pDesc" placeholder="Hesap özellikleri..." class="input-dark h-24"></textarea>
-                
-                <input type="file" id="pFile" hidden onchange="window.handleFile(event)">
-                <label for="pFile" class="border-2 border-dashed border-gray-700 p-6 text-center rounded-2xl cursor-pointer text-xs font-black text-gray-500 hover:border-orange-500 transition">RESİM SEÇ</label>
-                <div id="preV" class="flex justify-center"></div>
-                
-                <button id="pubBtn" onclick="window.publish()" class="w-full btn-orange py-5 rounded-2xl text-lg italic">YAYINLA</button>
-                <button onclick="window.closeModal('postModal')" class="text-gray-600 text-[10px] font-bold uppercase tracking-widest">İptal Et</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="authModal" class="hidden fixed inset-0 z-[500] bg-black/90 flex items-center justify-center p-4">
-        <div class="bg-[#1a1c23] p-8 rounded-3xl w-full max-w-sm border border-white/5 text-center shadow-2xl">
-            <h2 class="text-2xl font-black mb-6 italic uppercase">Giriş Yap</h2>
-            <input id="ae" type="email" placeholder="E-posta" class="input-dark w-full mb-3">
-            <input id="ap" type="password" placeholder="Şifre" class="input-dark w-full mb-6">
-            <button onclick="window.authAction()" class="w-full btn-orange py-4 rounded-2xl font-black uppercase">Devam Et</button>
-        </div>
-    </div>
-
-    <button onclick="window.openPost()" class="fixed bottom-8 right-8 w-16 h-16 btn-orange rounded-full shadow-2xl flex items-center justify-center text-2xl z-[150]"><i class="fas fa-plus"></i></button>
+    <button onclick="window.checkPost()" class="fixed bottom-8 right-8 w-16 h-16 btn-orange rounded-full shadow-2xl flex items-center justify-center text-2xl z-[150] clickable"><i class="fas fa-plus"></i></button>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -119,12 +124,20 @@
 
         window.openModal = (id) => document.getElementById(id).classList.remove('hidden');
         window.closeModal = (id) => document.getElementById(id).classList.add('hidden');
+        
+        window.openProfile = () => {
+            document.getElementById('profIcon').innerText = user.email[0].toUpperCase();
+            document.getElementById('profEmail').innerText = user.email;
+            window.openModal('profileMenu');
+        };
+
+        window.handleSignOut = () => signOut(auth).then(() => location.reload());
 
         window.handleFile = (e) => {
             const r = new FileReader();
             r.onload = (ev) => {
                 base64 = ev.target.result;
-                document.getElementById('preV').innerHTML = `<img src="${base64}" class="w-20 h-20 rounded-xl border-2 border-orange-500 mt-4 object-cover">`;
+                document.getElementById('preV').innerHTML = `<img src="${base64}" class="w-16 h-16 rounded-xl border-2 border-orange-500 mt-4 object-cover">`;
             };
             r.readAsDataURL(e.target.files[0]);
         };
@@ -133,7 +146,6 @@
             if(!base64) return alert("Resim seç kanka!");
             const btn = document.getElementById('pubBtn');
             btn.disabled = true; btn.innerText = "YAYINLANIYOR...";
-            
             const payload = {
                 baslik: document.getElementById('pTitle').value,
                 oyun: document.getElementById('pGame').value,
@@ -142,11 +154,9 @@
                 user_email: user.email,
                 resim_urlleri: [base64],
                 aciklama: document.getElementById('pDesc').value,
-                // Başlık içinde platform bilgisini gizliyoruz (wp veya tg)
-                is_verified: user.email === ADMIN_MAIL ? true : false,
-                baslik_ek: document.getElementById('pPlatform').value // WP mi TG mi olduğunu saklıyoruz
+                is_verified: user.email === ADMIN_MAIL,
+                baslik_ek: document.getElementById('pPlatform').value
             };
-            
             await supabase.from('ilanlar').insert([payload]);
             location.reload();
         };
@@ -154,19 +164,14 @@
         window.showDet = (id) => {
             const i = ilanlar.find(x => x.id === id);
             const isV = i.is_verified || i.user_email === ADMIN_MAIL;
-            
             document.getElementById('detImg').innerHTML = `<img src="${i.resim_urlleri[0]}" class="w-full h-full object-cover">`;
             document.getElementById('detTitle').innerText = i.baslik;
             document.getElementById('detUser').innerHTML = `${i.user_email} ${isV ? '<i class="fas fa-check-circle text-blue-500 ml-1"></i>' : ''}`;
             document.getElementById('detDesc').innerText = i.aciklama;
-            
-            // Link Ayarı
-            const platform = i.baslik_ek || 'wp';
-            const link = platform === 'tg' ? `https://t.me/+${i.telefon}` : `https://wa.me/${i.telefon}`;
-            document.getElementById('detBtn').href = link;
-            document.getElementById('detBtn').innerText = platform === 'tg' ? 'TELEGRAMDAN YAZ' : 'WHATSAPPTAN YAZ';
-            document.getElementById('detBtn').style.backgroundColor = platform === 'tg' ? '#0088cc' : '#25D366';
-            
+            const link = (i.baslik_ek === 'tg' ? `https://t.me/+` : `https://wa.me/`) + i.telefon;
+            const b = document.getElementById('detBtn');
+            b.href = link; b.innerText = i.baslik_ek === 'tg' ? 'TELEGRAM' : 'WHATSAPP';
+            b.style.backgroundColor = i.baslik_ek === 'tg' ? '#0088cc' : '#25D366';
             window.openModal('detailModal');
         };
 
@@ -174,23 +179,23 @@
             document.getElementById('ilanList').innerHTML = list.map(i => {
                 const isV = i.is_verified || i.user_email === ADMIN_MAIL;
                 return `
-                <div class="itemsatis-card shadow-2xl" onclick="window.showDet(${i.id})">
-                    <div class="h-36 bg-gray-900 overflow-hidden">
-                        <img src="${i.resim_urlleri[0]}" class="w-full h-full object-cover">
-                    </div>
+                <div class="itemsatis-card shadow-2xl clickable" onclick="window.showDet(${i.id})">
+                    <div class="h-36 bg-gray-900 overflow-hidden"><img src="${i.resim_urlleri[0]}" class="w-full h-full object-cover"></div>
                     <div class="p-3">
-                        <div class="text-[8px] text-orange-500 font-black uppercase mb-1">${i.oyun}</div>
-                        <h3 class="text-[11px] font-bold truncate flex items-center gap-1">
-                            ${i.baslik} ${isV ? '<i class="fas fa-check-circle text-blue-500 text-[10px]"></i>' : ''}
-                        </h3>
+                        <div class="text-[8px] text-orange-500 font-black mb-1 uppercase">${i.oyun}</div>
+                        <h3 class="text-[11px] font-bold truncate">${i.baslik} ${isV ? '<i class="fas fa-check-circle text-blue-500"></i>' : ''}</h3>
                         <div class="mt-2 text-orange-500 font-black text-sm">${i.fiyat} ₺</div>
                     </div>
                 </div>`;
             }).join('');
         };
 
-        window.filterByGame = (g) => window.render(g === 'Tümü' ? ilanlar : ilanlar.filter(i => i.oyun === g));
-        window.openPost = () => user ? window.openModal('postModal') : window.openModal('authModal');
+        window.filterByGame = (g) => {
+            window.render(g === 'Tümü' ? ilanlar : ilanlar.filter(i => i.oyun === g));
+        };
+
+        window.checkPost = () => user ? window.openModal('postModal') : window.openModal('authModal');
+        
         window.authAction = async () => {
             const e = document.getElementById('ae').value, p = document.getElementById('ap').value;
             try { await signInWithEmailAndPassword(auth,e,p); } catch { await createUserWithEmailAndPassword(auth,e,p); }
@@ -200,9 +205,11 @@
         onAuthStateChanged(auth, async (u) => {
             user = u;
             const status = document.getElementById('userStatus');
-            if(u) status.innerHTML = `<div onclick="signOut(auth).then(()=>location.reload())" class="w-10 h-10 rounded-full bg-orange-500 text-black flex items-center justify-center font-black cursor-pointer shadow-lg shadow-orange-500/20">${u.email[0].toUpperCase()}</div>`;
-            else status.innerHTML = `<button onclick="window.openModal('authModal')" class="text-xs font-black uppercase bg-white/5 px-4 py-2 rounded-xl">Giriş</button>`;
-            
+            if(u) {
+                status.innerHTML = `<div onclick="window.openProfile()" class="w-10 h-10 rounded-full bg-orange-500 text-black flex items-center justify-center font-black cursor-pointer shadow-lg shadow-orange-500/20 clickable">${u.email[0].toUpperCase()}</div>`;
+            } else {
+                status.innerHTML = `<button onclick="window.openModal('authModal')" class="text-xs font-black uppercase bg-white/5 px-4 py-2 rounded-xl clickable">Giriş</button>`;
+            }
             const { data } = await supabase.from('ilanlar').select('*').order('created_at', { ascending: false });
             ilanlar = data || [];
             window.render(ilanlar);
