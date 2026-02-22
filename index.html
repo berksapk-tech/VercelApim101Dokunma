@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>BerksShops</title>
+    <title>BerksShops | Pro v19 Ultimate</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -13,10 +13,11 @@
         .nav-blur { background: rgba(15, 16, 20, 0.98); backdrop-filter: blur(10px); border-bottom: 1px solid #252831; }
         .input-dark { background: #252831; border: 1px solid #363945; color: white; outline: none; padding: 12px; border-radius: 12px; width: 100%; font-size: 14px; }
         #plusBtn { position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px; background: #f39c12; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; z-index: 1000; cursor: pointer; border:none; box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
-        .cat-btn { background: #1a1c23; border: 1px solid #333; padding: 8px 18px; border-radius: 10px; font-size: 11px; font-weight: 900; white-space: nowrap; cursor: pointer; color: #888; }
+        .cat-btn { background: #1a1c23; border: 1px solid #333; padding: 8px 18px; border-radius: 10px; font-size: 11px; font-weight: 900; white-space: nowrap; cursor: pointer; color: #888; transition: 0.2s; }
         .cat-btn.active { background: #f39c12; color: #000; border-color: #f39c12; }
         .itemsatis-card { background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
         .kural-btn { background: rgba(243, 156, 18, 0.1); border: 1px solid #f39c12; color: #f39c12; padding: 6px 12px; border-radius: 8px; font-size: 10px; font-weight: 900; text-transform: uppercase; }
+        #verifyAlert { display: none; background: #ef4444; color: white; text-align: center; padding: 8px; font-size: 11px; font-weight: 900; text-transform: uppercase; }
         #loader { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; align-items: center; justify-content: center; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
@@ -24,6 +25,7 @@
 <body>
 
     <div id="loader"><div class="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div></div>
+    <div id="verifyAlert">⚠️ LÜTFEN E-POSTANI DOĞRULA! SPAM KLASÖRÜNÜ KONTROL ET.</div>
 
     <nav class="nav-blur sticky top-0 z-[800] px-4 py-3 flex justify-between items-center">
         <div class="flex items-center gap-2 cursor-pointer" onclick="location.reload()">
@@ -39,13 +41,17 @@
     <div class="max-w-7xl mx-auto px-4 mt-4">
         <div class="relative mb-4">
             <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
-            <input type="text" id="searchInput" oninput="window.searchIlan()" placeholder="İlanlarda ara..." class="input-dark pl-12 py-4 shadow-xl">
+            <input type="text" id="searchInput" oninput="window.searchIlan()" placeholder="Oyun, başlık veya platform ara..." class="input-dark pl-12 py-4 shadow-xl">
         </div>
+        
         <div class="flex gap-2 overflow-x-auto no-scrollbar pb-2">
             <button class="cat-btn active" onclick="window.filterData('Tümü', this)">TÜMÜ</button>
             <button class="cat-btn" onclick="window.filterData('PUBG Mobile', this)">PUBG</button>
             <button class="cat-btn" onclick="window.filterData('Brawl Stars', this)">BRAWL</button>
             <button class="cat-btn" onclick="window.filterData('Roblox', this)">ROBLOX</button>
+            <button class="cat-btn" onclick="window.filterData('PlayStation', this)">PLAYSTATION</button>
+            <button class="cat-btn" onclick="window.filterData('Xbox', this)">XBOX</button>
+            <button class="cat-btn" onclick="window.filterData('Minecraft', this)">MINECRAFT</button>
         </div>
     </div>
 
@@ -64,7 +70,16 @@
                     <option value="ALICI">ALICI</option>
                 </select>
                 <input id="pTitle" type="text" placeholder="İlan Başlığı" class="input-dark">
-                <select id="pGame" class="input-dark"><option>PUBG Mobile</option><option>Brawl Stars</option><option>Roblox</option></select>
+                
+                <select id="pGame" class="input-dark">
+                    <option>PUBG Mobile</option>
+                    <option>Brawl Stars</option>
+                    <option>Roblox</option>
+                    <option>PlayStation</option>
+                    <option>Xbox</option>
+                    <option>Minecraft</option>
+                </select>
+
                 <div class="grid grid-cols-2 gap-2">
                     <select id="pCountry" class="input-dark">
                         <option value="90">🇹🇷 +90</option>
@@ -75,9 +90,7 @@
                 </div>
                 <input id="pPhone" type="tel" placeholder="Numara (Sıfırsız)" class="input-dark">
                 <input id="pPrice" type="number" placeholder="Fiyat (₺)" class="input-dark">
-                
                 <textarea id="pDesc" placeholder="İlan Açıklaması..." class="input-dark h-24"></textarea>
-                
                 <input type="file" id="pFile" hidden onchange="window.handleFile(event)">
                 <label for="pFile" class="block border-2 border-dashed border-gray-700 p-4 text-center rounded-xl cursor-pointer text-[10px] font-black text-gray-500 uppercase">Fotoğraf Seç</label>
                 <div id="preV" class="flex justify-center"></div>
@@ -88,15 +101,13 @@
     </div>
 
     <div id="detModal" class="hidden fixed inset-0 z-[3000] bg-black/95 flex items-center justify-center p-4">
-        <div class="bg-[#1a1c23] p-6 rounded-3xl w-full max-sm border border-white/10 text-center">
+        <div class="bg-[#1a1c23] p-6 rounded-3xl w-full max-w-sm border border-white/10 text-center">
             <div id="detImg" class="w-full h-48 rounded-2xl overflow-hidden mb-4 bg-gray-900"></div>
             <div id="detBadge" class="inline-block px-3 py-1 rounded-full text-[10px] font-black mb-2 uppercase"></div>
             <h2 id="detTitle" class="text-xl font-black text-orange-500 mb-1 uppercase"></h2>
             <div id="detAdminInfo" class="text-[11px] text-blue-400 font-bold mb-4 italic"></div>
-            
             <div class="text-left mb-2 text-[10px] font-black text-gray-500 uppercase">İlan Açıklaması:</div>
             <p id="detDesc" class="bg-black/40 p-4 rounded-xl text-sm text-gray-300 text-left mb-6 whitespace-pre-wrap max-h-32 overflow-y-auto border border-white/5"></p>
-            
             <div class="space-y-2">
                 <a id="detLink" target="_blank" class="w-full py-4 rounded-2xl font-black text-xs flex items-center justify-center gap-2 text-white uppercase transition active:scale-95"></a>
                 <button id="deleteBtn" onclick="window.deleteIlan()" class="hidden w-full bg-red-500/10 text-red-500 py-3 rounded-xl text-[10px] font-black uppercase border border-red-500/20">İlanı Kaldır</button>
@@ -107,17 +118,17 @@
 
     <div id="authModal" class="hidden fixed inset-0 z-[2000] bg-black/95 flex items-center justify-center p-4">
         <div class="bg-[#1a1c23] p-8 rounded-3xl w-full max-w-sm text-center border border-white/5 shadow-2xl">
-            <h2 class="text-xl font-black mb-6 uppercase italic text-orange-500">Giriş Yap</h2>
+            <h2 class="text-xl font-black mb-6 uppercase italic text-orange-500">Giriş / Kayıt</h2>
             <input id="ae" type="email" placeholder="E-posta" class="input-dark mb-3">
             <input id="ap" type="password" placeholder="Şifre" class="input-dark mb-6">
-            <button onclick="window.authAction()" class="w-full bg-orange-500 text-black py-4 rounded-2xl font-black uppercase">Devam Et</button>
+            <button id="authBtn" onclick="window.authAction()" class="w-full bg-orange-500 text-black py-4 rounded-2xl font-black uppercase">Devam Et</button>
             <button onclick="window.closeModal('authModal')" class="mt-4 text-[10px] text-gray-500 uppercase">Kapat</button>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
         const fbConf = { apiKey: "AIzaSyAmZ2X3yEMKa4rR-EneI-RVWOXmNWD8-6E", authDomain: "berksashare.firebaseapp.com", projectId: "berksashare" };
@@ -136,7 +147,13 @@
         let user = null, allData = [], currentIlanId = null, base64 = "";
 
         window.closeModal = (id) => document.getElementById(id).classList.add('hidden');
-        window.openPost = () => user ? document.getElementById('postModal').classList.remove('hidden') : document.getElementById('authModal').classList.remove('hidden');
+        
+        window.openPost = () => {
+            if(!user) { document.getElementById('authModal').classList.remove('hidden'); }
+            else if (!user.emailVerified) { alert("⚠️ E-posta doğrulanmamış! Spam klasörüne bak."); }
+            else { document.getElementById('postModal').classList.remove('hidden'); }
+        };
+
         window.handleLogout = () => { signOut(window.auth).then(() => location.reload()); };
 
         window.handleFile = (e) => {
@@ -149,7 +166,8 @@
         };
 
         window.publishNow = async () => {
-            if(!base64 || !user) return alert("Bilgileri kontrol et!");
+            if(!user.emailVerified) return alert("E-posta doğrulanmamış!");
+            if(!base64) return alert("Resim seç!");
             const btn = document.getElementById('pubBtn');
             btn.disabled = true; btn.innerText = "YAYINLANIYOR...";
             const phone = document.getElementById('pCountry').value + document.getElementById('pPhone').value.replace(/\D/g,'');
@@ -171,15 +189,14 @@
         };
 
         window.deleteIlan = async () => {
-            if(!confirm("Bu ilanı kalıcı olarak silmek istiyor musun?")) return;
-            const { error } = await supabase.from('ilanlar').delete().eq('id', currentIlanId);
-            if(error) alert("Hata: " + error.message);
-            else location.reload();
+            if(!confirm("İlanı silmek istediğine emin misin?")) return;
+            await supabase.from('ilanlar').delete().eq('id', currentIlanId);
+            location.reload();
         };
 
         window.searchIlan = () => {
             const v = document.getElementById('searchInput').value.toLowerCase();
-            render(allData.filter(i => i.baslik.toLowerCase().includes(v) || i.oyun.toLowerCase().includes(v)));
+            render(allData.filter(i => i.baslik.toLowerCase().includes(v) || i.oyun.toLowerCase().includes(i.oyun.toLowerCase())));
         };
 
         window.filterData = (g, el) => {
@@ -220,28 +237,29 @@
             document.getElementById('detImg').innerHTML = `<img src="${i.resim_urlleri[0]}" class="w-full h-full object-cover">`;
             document.getElementById('detTitle').innerHTML = i.baslik + (isVerified ? VERIFY_TICK : '');
             document.getElementById('detDesc').innerText = i.aciklama.split("] ").pop();
-            
             const badge = document.getElementById('detBadge');
             badge.innerText = trade;
             badge.className = `inline-block px-3 py-1 rounded-full text-[10px] font-black mb-2 uppercase ${trade === 'ALICI' ? 'bg-blue-500/20 text-blue-500' : 'bg-green-500/20 text-green-500'}`;
-            
             document.getElementById('detAdminInfo').innerText = isVerified ? i.user_email + " (Onaylı)" : "";
             document.getElementById('deleteBtn').classList.toggle('hidden', !isMine);
-
             const link = document.getElementById('detLink');
             link.href = isTg ? `https://t.me/+${i.telefon}` : `https://wa.me/${i.telefon}`;
             link.innerHTML = isTg ? `<i class="fab fa-telegram"></i> Telegram` : `<i class="fab fa-whatsapp"></i> WhatsApp`;
             link.style.backgroundColor = isTg ? "#0088cc" : "#25D366";
-
             document.getElementById('detModal').classList.remove('hidden');
         };
 
         onAuthStateChanged(auth, async (u) => {
             user = u;
             const status = document.getElementById('userStatus');
-            if(u) status.innerHTML = `<div onclick="window.handleLogout()" class="w-9 h-9 rounded-full bg-orange-500 text-black flex items-center justify-center font-black cursor-pointer shadow-lg">${u.email[0].toUpperCase()}</div>`;
-            else status.innerHTML = `<button onclick="document.getElementById('authModal').classList.remove('hidden')" class="text-xs font-black uppercase bg-white/5 px-4 py-2 rounded-xl">Giriş</button>`;
-            
+            const vAlert = document.getElementById('verifyAlert');
+            if(u) {
+                status.innerHTML = `<div onclick="window.handleLogout()" class="w-9 h-9 rounded-full bg-orange-500 text-black flex items-center justify-center font-black cursor-pointer shadow-lg">${u.email[0].toUpperCase()}</div>`;
+                vAlert.style.display = u.emailVerified ? 'none' : 'block';
+            } else {
+                status.innerHTML = `<button onclick="document.getElementById('authModal').classList.remove('hidden')" class="text-xs font-black uppercase bg-white/5 px-4 py-2 rounded-xl">Giriş</button>`;
+                vAlert.style.display = 'none';
+            }
             const { data } = await supabase.from('ilanlar').select('*').order('created_at', { ascending: false });
             allData = data || [];
             render(allData);
@@ -250,8 +268,22 @@
 
         window.authAction = async () => {
             const e = document.getElementById('ae').value, p = document.getElementById('ap').value;
-            try { await signInWithEmailAndPassword(auth,e,p); location.reload(); }
-            catch { await createUserWithEmailAndPassword(auth,e,p); location.reload(); }
+            const btn = document.getElementById('authBtn');
+            btn.disabled = true; btn.innerText = "BEKLEYİN...";
+            try { 
+                await signInWithEmailAndPassword(auth, e, p); 
+                location.reload(); 
+            } catch (err) {
+                try {
+                    const res = await createUserWithEmailAndPassword(auth, e, p);
+                    await sendEmailVerification(res.user);
+                    alert("Kayıt başarılı! Lütfen mailini doğrula (Spam klasörüne bak)!");
+                    location.reload();
+                } catch (err2) {
+                    alert("Hata: " + err2.message);
+                    btn.disabled = false; btn.innerText = "Devam Et";
+                }
+            }
         };
     </script>
 </body>
