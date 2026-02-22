@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>BerksShops | Pro v15</title>
+    <title>BerksShops | Pro v17</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -16,6 +16,7 @@
         .cat-btn { background: #1a1c23; border: 1px solid #333; padding: 8px 18px; border-radius: 10px; font-size: 11px; font-weight: 900; white-space: nowrap; cursor: pointer; color: #888; }
         .cat-btn.active { background: #f39c12; color: #000; border-color: #f39c12; }
         .itemsatis-card { background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+        .kural-btn { background: rgba(243, 156, 18, 0.1); border: 1px solid #f39c12; color: #f39c12; padding: 6px 12px; border-radius: 8px; font-size: 10px; font-weight: 900; text-transform: uppercase; }
         #loader { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; align-items: center; justify-content: center; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
@@ -29,13 +30,16 @@
             <div class="bg-orange-500 p-1.5 rounded-lg text-black font-black italic">B</div>
             <h1 class="text-xl font-black uppercase italic tracking-tighter text-white">BERKS<span class="text-orange-500">SHOPS</span></h1>
         </div>
-        <div id="userStatus"></div>
+        <div class="flex items-center gap-3">
+            <a href="https://gameshop-olive.vercel.app/Kural" target="_blank" class="kural-btn"><i class="fas fa-gavel mr-1"></i> Kurallar</a>
+            <div id="userStatus"></div>
+        </div>
     </nav>
 
     <div class="max-w-7xl mx-auto px-4 mt-4">
         <div class="relative mb-4">
             <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
-            <input type="text" id="searchInput" oninput="window.searchIlan()" placeholder="İlanlarda ara..." class="input-dark pl-12 py-4">
+            <input type="text" id="searchInput" oninput="window.searchIlan()" placeholder="İlanlarda ara..." class="input-dark pl-12 py-4 shadow-xl">
         </div>
         <div class="flex gap-2 overflow-x-auto no-scrollbar pb-2">
             <button class="cat-btn active" onclick="window.filterData('Tümü', this)">TÜMÜ</button>
@@ -56,8 +60,8 @@
             <h2 class="text-orange-500 font-black mb-5 text-xl text-center uppercase italic">İLAN PAYLAŞ</h2>
             <div class="space-y-3">
                 <select id="pTrade" class="input-dark text-orange-400 font-bold">
-                    <option value="SATICI">SATICI (HESAP SATIYORUM)</option>
-                    <option value="ALICI">ALICI (HESAP ARIYORUM)</option>
+                    <option value="SATICI">SATICI</option>
+                    <option value="ALICI">ALICI</option>
                 </select>
                 <input id="pTitle" type="text" placeholder="İlan Başlığı" class="input-dark">
                 <select id="pGame" class="input-dark"><option>PUBG Mobile</option><option>Brawl Stars</option><option>Roblox</option></select>
@@ -71,23 +75,27 @@
                 </div>
                 <input id="pPhone" type="tel" placeholder="Numara (Sıfırsız)" class="input-dark">
                 <input id="pPrice" type="number" placeholder="Fiyat (₺)" class="input-dark">
-                <textarea id="pDesc" placeholder="Hesap özellikleri..." class="input-dark h-20"></textarea>
+                
+                <textarea id="pDesc" placeholder="İlan Açıklaması..." class="input-dark h-24"></textarea>
+                
                 <input type="file" id="pFile" hidden onchange="window.handleFile(event)">
-                <label for="pFile" class="block border-2 border-dashed border-gray-700 p-4 text-center rounded-xl cursor-pointer text-[10px] font-black text-gray-500">FOTOĞRAF SEÇ</label>
+                <label for="pFile" class="block border-2 border-dashed border-gray-700 p-4 text-center rounded-xl cursor-pointer text-[10px] font-black text-gray-500 uppercase">Fotoğraf Seç</label>
                 <div id="preV" class="flex justify-center"></div>
-                <button id="pubBtn" onclick="window.publishNow()" class="w-full bg-orange-500 text-black py-4 rounded-2xl font-black uppercase mt-2 shadow-lg shadow-orange-500/20">Yayınla</button>
+                <button id="pubBtn" onclick="window.publishNow()" class="w-full bg-orange-500 text-black py-4 rounded-2xl font-black uppercase mt-2 shadow-lg">Yayınla</button>
                 <button onclick="window.closeModal('postModal')" class="w-full text-gray-600 text-[10px] mt-2 font-bold uppercase text-center">İptal</button>
             </div>
         </div>
     </div>
 
     <div id="detModal" class="hidden fixed inset-0 z-[3000] bg-black/95 flex items-center justify-center p-4">
-        <div class="bg-[#1a1c23] p-6 rounded-3xl w-full max-w-sm border border-white/10 text-center">
-            <div id="detImg" class="w-full h-48 rounded-2xl overflow-hidden mb-4 bg-gray-900 shadow-xl"></div>
-            <div id="detBadge" class="inline-block px-3 py-1 rounded-full text-[10px] font-black mb-2"></div>
+        <div class="bg-[#1a1c23] p-6 rounded-3xl w-full max-sm border border-white/10 text-center">
+            <div id="detImg" class="w-full h-48 rounded-2xl overflow-hidden mb-4 bg-gray-900"></div>
+            <div id="detBadge" class="inline-block px-3 py-1 rounded-full text-[10px] font-black mb-2 uppercase"></div>
             <h2 id="detTitle" class="text-xl font-black text-orange-500 mb-1 uppercase"></h2>
-            <div id="detAdminInfo" class="text-[11px] text-blue-400 font-bold mb-4"></div>
-            <p id="detDesc" class="bg-black/40 p-4 rounded-xl text-sm text-gray-300 text-left mb-6 whitespace-pre-wrap max-h-32 overflow-y-auto"></p>
+            <div id="detAdminInfo" class="text-[11px] text-blue-400 font-bold mb-4 italic"></div>
+            
+            <div class="text-left mb-2 text-[10px] font-black text-gray-500 uppercase">İlan Açıklaması:</div>
+            <p id="detDesc" class="bg-black/40 p-4 rounded-xl text-sm text-gray-300 text-left mb-6 whitespace-pre-wrap max-h-32 overflow-y-auto border border-white/5"></p>
             
             <div class="space-y-2">
                 <a id="detLink" target="_blank" class="w-full py-4 rounded-2xl font-black text-xs flex items-center justify-center gap-2 text-white uppercase transition active:scale-95"></a>
@@ -116,7 +124,6 @@
         const sbUrl = 'https://vkjodymflqhgaowqjoji.supabase.co';
         const sbKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZram9keW1mbHFoZ2Fvd3Fqb2ppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2NzYwNjEsImV4cCI6MjA4NzI1MjA2MX0.PqJvklvLka_LIqYJYmIEVGlmaw2Nh_zGt03JeZQGnVI';
         
-        // --- ONAYLI MAİLLER ---
         const ADMINS = ["berksplaysation@gmail.com", "ardayilmaz1413@gmail.com"];
         const VERIFY_TICK = " ✅";
 
@@ -142,7 +149,7 @@
         };
 
         window.publishNow = async () => {
-            if(!base64 || !user) return alert("Bilgileri kontrol et kanka!");
+            if(!base64 || !user) return alert("Bilgileri kontrol et!");
             const btn = document.getElementById('pubBtn');
             btn.disabled = true; btn.innerText = "YAYINLANIYOR...";
             const phone = document.getElementById('pCountry').value + document.getElementById('pPhone').value.replace(/\D/g,'');
@@ -164,7 +171,7 @@
         };
 
         window.deleteIlan = async () => {
-            if(!confirm("İlanı silmek istediğine emin misin?")) return;
+            if(!confirm("Bu ilanı kalıcı olarak silmek istiyor musun?")) return;
             const { error } = await supabase.from('ilanlar').delete().eq('id', currentIlanId);
             if(error) alert("Hata: " + error.message);
             else location.reload();
@@ -189,7 +196,7 @@
                 <div class="itemsatis-card shadow-lg cursor-pointer transition active:scale-95" onclick="window.showDetail(${i.id})">
                     <div class="h-32 relative">
                         <img src="${i.resim_urlleri[0]}" class="w-full h-full object-cover">
-                        <div class="absolute top-2 left-2 px-2 py-0.5 rounded bg-black/70 text-[8px] font-black">${trade}</div>
+                        <div class="absolute top-2 left-2 px-2 py-0.5 rounded bg-black/70 text-[8px] font-black uppercase">${trade}</div>
                     </div>
                     <div class="p-3">
                         <div class="text-[7px] text-orange-500 font-black uppercase mb-1">${i.oyun}</div>
@@ -216,9 +223,9 @@
             
             const badge = document.getElementById('detBadge');
             badge.innerText = trade;
-            badge.className = `inline-block px-3 py-1 rounded-full text-[10px] font-black mb-2 ${trade === 'ALICI' ? 'bg-blue-500/20 text-blue-500' : 'bg-green-500/20 text-green-500'}`;
+            badge.className = `inline-block px-3 py-1 rounded-full text-[10px] font-black mb-2 uppercase ${trade === 'ALICI' ? 'bg-blue-500/20 text-blue-500' : 'bg-green-500/20 text-green-500'}`;
             
-            document.getElementById('detAdminInfo').innerText = isVerified ? i.user_email + " (Onaylı Hesap)" : "";
+            document.getElementById('detAdminInfo').innerText = isVerified ? i.user_email + " (Onaylı)" : "";
             document.getElementById('deleteBtn').classList.toggle('hidden', !isMine);
 
             const link = document.getElementById('detLink');
@@ -232,7 +239,7 @@
         onAuthStateChanged(auth, async (u) => {
             user = u;
             const status = document.getElementById('userStatus');
-            if(u) status.innerHTML = `<div onclick="window.handleLogout()" class="w-9 h-9 rounded-full bg-orange-500 text-black flex items-center justify-center font-black cursor-pointer">${u.email[0].toUpperCase()}</div>`;
+            if(u) status.innerHTML = `<div onclick="window.handleLogout()" class="w-9 h-9 rounded-full bg-orange-500 text-black flex items-center justify-center font-black cursor-pointer shadow-lg">${u.email[0].toUpperCase()}</div>`;
             else status.innerHTML = `<button onclick="document.getElementById('authModal').classList.remove('hidden')" class="text-xs font-black uppercase bg-white/5 px-4 py-2 rounded-xl">Giriş</button>`;
             
             const { data } = await supabase.from('ilanlar').select('*').order('created_at', { ascending: false });
