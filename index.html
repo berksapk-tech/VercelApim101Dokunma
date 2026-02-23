@@ -3,126 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>BerksShops | Pro v19 Ultimate</title>
+    <title>BerksShops | v39 Verification Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        :root { --accent: #f39c12; --bg: #0f1014; --card: #1a1c23; }
-        body { background-color: var(--bg); color: #fff; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; margin: 0; }
-        .nav-blur { background: rgba(15, 16, 20, 0.98); backdrop-filter: blur(10px); border-bottom: 1px solid #252831; }
-        .input-dark { background: #252831; border: 1px solid #363945; color: white; outline: none; padding: 12px; border-radius: 12px; width: 100%; font-size: 14px; }
-        #plusBtn { position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px; background: #f39c12; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; z-index: 1000; cursor: pointer; border:none; box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
-        .cat-btn { background: #1a1c23; border: 1px solid #333; padding: 8px 18px; border-radius: 10px; font-size: 11px; font-weight: 900; white-space: nowrap; cursor: pointer; color: #888; transition: 0.2s; }
+        :root { --accent: #f39c12; --bg: #0d0f14; --card: #1a1d26; }
+        body { background-color: var(--bg); color: #fff; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        /* DOĞRULAMA ÇUBUĞU */
+        #verifyBanner { background: linear-gradient(90deg, #f39c12, #e67e22); color: #000; font-weight: 900; font-size: 11px; text-align: center; padding: 12px; cursor: pointer; display: none; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .nav-blur { background: rgba(13, 15, 20, 0.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .input-dark { background: #252936; border: 1px solid #363b4d; color: white; outline: none; padding: 14px; border-radius: 14px; width: 100%; }
+        .cat-btn { background: #1a1d26; border: 1px solid #30363d; padding: 10px 18px; border-radius: 12px; font-size: 10px; font-weight: 800; color: #8b949e; white-space: nowrap; transition: 0.2s; }
         .cat-btn.active { background: #f39c12; color: #000; border-color: #f39c12; }
-        .itemsatis-card { background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
-        .kural-btn { background: rgba(243, 156, 18, 0.1); border: 1px solid #f39c12; color: #f39c12; padding: 6px 12px; border-radius: 8px; font-size: 10px; font-weight: 900; text-transform: uppercase; }
-        #verifyAlert { display: none; background: #ef4444; color: white; text-align: center; padding: 8px; font-size: 11px; font-weight: 900; text-transform: uppercase; }
-        #loader { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; align-items: center; justify-content: center; }
+        .itemsatis-card { background: var(--card); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.03); }
+        .vip-card { border: 1.5px solid #f39c12 !important; box-shadow: 0 0 15px rgba(243, 156, 18, 0.2); }
+        #plusBtn { position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px; background: linear-gradient(135deg, #f39c12, #e67e22); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; z-index: 3000; border: none; }
+        .verify-badge { color: #3897f0; font-size: 11px; margin-left: 4px; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body>
 
-    <div id="loader"><div class="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div></div>
-    <div id="verifyAlert">⚠️ LÜTFEN E-POSTANI DOĞRULA! SPAM KLASÖRÜNÜ KONTROL ET.</div>
+    <div id="verifyBanner" onclick="window.resendVerify()">
+        <i class="fas fa-envelope-open-text mr-2"></i> E-postan Onaylı Değil! Onay Maili Göndermek İçin Tıkla
+    </div>
 
-    <nav class="nav-blur sticky top-0 z-[800] px-4 py-3 flex justify-between items-center">
-        <div class="flex items-center gap-2 cursor-pointer" onclick="location.reload()">
+    <nav class="nav-blur sticky top-0 z-[800] px-5 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-2" onclick="location.reload()">
             <div class="bg-orange-500 p-1.5 rounded-lg text-black font-black italic">B</div>
-            <h1 class="text-xl font-black uppercase italic tracking-tighter text-white">BERKS<span class="text-orange-500">SHOPS</span></h1>
+            <h1 class="text-xl font-black uppercase italic tracking-tighter">BERKS<span class="text-orange-500">SHOPS</span></h1>
         </div>
         <div class="flex items-center gap-3">
-            <a href="https://gameshop-olive.vercel.app/Kural" target="_blank" class="kural-btn"><i class="fas fa-gavel mr-1"></i> Kurallar</a>
+            <a href="https://gameshop-olive.vercel.app/Kural" target="_blank" class="text-[10px] font-black uppercase text-orange-500 border border-orange-500 px-3 py-1.5 rounded-lg">Kurallar</a>
             <div id="userStatus"></div>
         </div>
     </nav>
 
-    <div class="max-w-7xl mx-auto px-4 mt-4">
-        <div class="relative mb-4">
-            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
-            <input type="text" id="searchInput" oninput="window.searchIlan()" placeholder="Oyun, başlık veya platform ara..." class="input-dark pl-12 py-4 shadow-xl">
-        </div>
-        
-        <div class="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+    <div class="max-w-7xl mx-auto px-5 mt-6">
+        <div class="flex gap-3 overflow-x-auto no-scrollbar pb-4" id="vipPlans"></div>
+        <div class="flex gap-2 overflow-x-auto no-scrollbar my-6">
             <button class="cat-btn active" onclick="window.filterData('Tümü', this)">TÜMÜ</button>
-            <button class="cat-btn" onclick="window.filterData('PUBG Mobile', this)">PUBG</button>
-            <button class="cat-btn" onclick="window.filterData('Brawl Stars', this)">BRAWL</button>
-            <button class="cat-btn" onclick="window.filterData('Roblox', this)">ROBLOX</button>
-            <button class="cat-btn" onclick="window.filterData('PlayStation', this)">PLAYSTATION</button>
-            <button class="cat-btn" onclick="window.filterData('Xbox', this)">XBOX</button>
-            <button class="cat-btn" onclick="window.filterData('Minecraft', this)">MINECRAFT</button>
+            <button class="cat-btn" onclick="window.filterData('PUBG Mobile', this)">PUBG MOBILE</button>
+            <button class="cat-btn" onclick="window.filterData('Brawl Stars', this)">BRAWL STARS</button>
+            <button class="cat-btn" onclick="window.filterData('DİĞER', this)">DİĞER</button>
         </div>
+        <div id="ilanList" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 pb-20"></div>
     </div>
-
-    <main class="max-w-7xl mx-auto px-4 mt-2 pb-24">
-        <div id="ilanList" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
-    </main>
 
     <button id="plusBtn" onclick="window.openPost()"><i class="fas fa-plus"></i></button>
 
-    <div id="postModal" class="hidden fixed inset-0 z-[2000] bg-black/95 p-4 overflow-y-auto">
-        <div class="bg-[#1a1c23] p-6 rounded-3xl max-w-md mx-auto my-5 border border-white/10">
-            <h2 class="text-orange-500 font-black mb-5 text-xl text-center uppercase italic">İLAN PAYLAŞ</h2>
-            <div class="space-y-3">
-                <select id="pTrade" class="input-dark text-orange-400 font-bold">
-                    <option value="SATICI">SATICI</option>
-                    <option value="ALICI">ALICI</option>
-                </select>
-                <input id="pTitle" type="text" placeholder="İlan Başlığı" class="input-dark">
-                
-                <select id="pGame" class="input-dark">
-                    <option>PUBG Mobile</option>
-                    <option>Brawl Stars</option>
-                    <option>Roblox</option>
-                    <option>PlayStation</option>
-                    <option>Xbox</option>
-                    <option>Minecraft</option>
-                </select>
+    <div id="detModal" class="hidden fixed inset-0 z-[5000] bg-black/95 flex items-center justify-center p-5">
+        <div class="bg-[#1a1d26] p-6 rounded-[30px] w-full max-w-sm text-center shadow-2xl">
+            <div id="detImg" class="w-full h-44 rounded-2xl overflow-hidden mb-5"></div>
+            <h2 id="detTitle" class="text-xl font-black text-white mb-2 uppercase"></h2>
+            <p id="detDesc" class="text-gray-400 text-sm mb-6 max-h-32 overflow-y-auto"></p>
+            <div class="flex flex-col gap-3">
+                <a id="detLink" target="_blank" class="w-full py-4 rounded-2xl font-black text-xs text-white uppercase flex items-center justify-center gap-2"></a>
+                <button id="deleteBtn" onclick="window.deleteIlanNow()" class="hidden w-full bg-red-600/20 text-red-500 py-3 rounded-xl text-[10px] font-black uppercase">İlanı Kaldır</button>
+                <button onclick="window.closeModal('detModal')" class="w-full py-3 text-gray-500 font-bold uppercase text-[10px]">Kapat</button>
+            </div>
+        </div>
+    </div>
 
+    <div id="postModal" class="hidden fixed inset-0 z-[4000] bg-black/90 p-5 overflow-y-auto">
+        <div class="bg-[#1a1d26] p-8 rounded-[30px] max-w-md mx-auto my-5">
+            <h2 class="text-orange-500 font-black mb-6 text-center uppercase italic text-xl">İlan Oluştur</h2>
+            <div class="space-y-4">
                 <div class="grid grid-cols-2 gap-2">
-                    <select id="pCountry" class="input-dark">
-                        <option value="90">🇹🇷 +90</option>
-                        <option value="994">🇦🇿 +994</option>
-                        <option value="62">🇮🇩 +62</option>
-                    </select>
-                    <select id="pPlat" class="input-dark"><option value="tg">Telegram</option><option value="wp">WhatsApp</option></select>
+                    <button id="typeS" onclick="window.setType('satici')" class="py-4 rounded-xl border font-black text-[10px] uppercase bg-green-500/10 border-green-500 text-green-500">SATICIYIM</button>
+                    <button id="typeA" onclick="window.setType('alici')" class="py-4 rounded-xl border border-gray-700 text-gray-500 font-black text-[10px] uppercase">ALICIYIM</button>
                 </div>
-                <input id="pPhone" type="tel" placeholder="Numara (Sıfırsız)" class="input-dark">
+                <input id="pTitle" type="text" placeholder="Başlık" class="input-dark">
+                <div class="grid grid-cols-2 gap-2">
+                    <select id="pGame" class="input-dark"><option>PUBG Mobile</option><option>Brawl Stars</option><option>DİĞER</option></select>
+                    <select id="pPlat" class="input-dark"><option value="wp">WhatsApp</option><option value="tg">Telegram</option></select>
+                </div>
+                <input id="pPhone" type="tel" placeholder="Telefon (90...)" class="input-dark">
                 <input id="pPrice" type="number" placeholder="Fiyat (₺)" class="input-dark">
-                <textarea id="pDesc" placeholder="İlan Açıklaması..." class="input-dark h-24"></textarea>
+                <textarea id="pDesc" placeholder="Açıklama..." class="input-dark h-24"></textarea>
                 <input type="file" id="pFile" hidden onchange="window.handleFile(event)">
-                <label for="pFile" class="block border-2 border-dashed border-gray-700 p-4 text-center rounded-xl cursor-pointer text-[10px] font-black text-gray-500 uppercase">Fotoğraf Seç</label>
+                <label for="pFile" class="block border-2 border-dashed border-gray-700 p-5 text-center rounded-xl cursor-pointer text-[10px] font-bold text-gray-400">RESİM SEÇ</label>
                 <div id="preV" class="flex justify-center"></div>
-                <button id="pubBtn" onclick="window.publishNow()" class="w-full bg-orange-500 text-black py-4 rounded-2xl font-black uppercase mt-2 shadow-lg">Yayınla</button>
-                <button onclick="window.closeModal('postModal')" class="w-full text-gray-600 text-[10px] mt-2 font-bold uppercase text-center">İptal</button>
+                <button id="pubBtn" onclick="window.publishNow()" class="w-full bg-orange-500 text-black py-4 rounded-2xl font-black uppercase">Yayınla</button>
+                <button onclick="window.closeModal('postModal')" class="w-full text-gray-600 font-bold uppercase text-[10px] mt-2">İptal</button>
             </div>
         </div>
     </div>
 
-    <div id="detModal" class="hidden fixed inset-0 z-[3000] bg-black/95 flex items-center justify-center p-4">
-        <div class="bg-[#1a1c23] p-6 rounded-3xl w-full max-w-sm border border-white/10 text-center">
-            <div id="detImg" class="w-full h-48 rounded-2xl overflow-hidden mb-4 bg-gray-900"></div>
-            <div id="detBadge" class="inline-block px-3 py-1 rounded-full text-[10px] font-black mb-2 uppercase"></div>
-            <h2 id="detTitle" class="text-xl font-black text-orange-500 mb-1 uppercase"></h2>
-            <div id="detAdminInfo" class="text-[11px] text-blue-400 font-bold mb-4 italic"></div>
-            <div class="text-left mb-2 text-[10px] font-black text-gray-500 uppercase">İlan Açıklaması:</div>
-            <p id="detDesc" class="bg-black/40 p-4 rounded-xl text-sm text-gray-300 text-left mb-6 whitespace-pre-wrap max-h-32 overflow-y-auto border border-white/5"></p>
-            <div class="space-y-2">
-                <a id="detLink" target="_blank" class="w-full py-4 rounded-2xl font-black text-xs flex items-center justify-center gap-2 text-white uppercase transition active:scale-95"></a>
-                <button id="deleteBtn" onclick="window.deleteIlan()" class="hidden w-full bg-red-500/10 text-red-500 py-3 rounded-xl text-[10px] font-black uppercase border border-red-500/20">İlanı Kaldır</button>
-                <button onclick="window.closeModal('detModal')" class="w-full bg-white/5 py-3 rounded-xl text-[10px] font-black text-gray-400 uppercase">Kapat</button>
+    <div id="authModal" class="hidden fixed inset-0 z-[5000] bg-black/95 flex items-center justify-center p-5">
+        <div class="bg-[#1a1d26] p-8 rounded-[30px] w-full max-w-sm text-center">
+            <div class="flex justify-center gap-6 mb-8 border-b border-white/5 pb-2">
+                <button id="tabL" onclick="window.switchAuth('login')" class="font-black uppercase text-xs text-orange-500">Giriş</button>
+                <button id="tabR" onclick="window.switchAuth('register')" class="font-black uppercase text-xs text-gray-600">Kayıt</button>
             </div>
-        </div>
-    </div>
-
-    <div id="authModal" class="hidden fixed inset-0 z-[2000] bg-black/95 flex items-center justify-center p-4">
-        <div class="bg-[#1a1c23] p-8 rounded-3xl w-full max-w-sm text-center border border-white/5 shadow-2xl">
-            <h2 class="text-xl font-black mb-6 uppercase italic text-orange-500">Giriş / Kayıt</h2>
-            <input id="ae" type="email" placeholder="E-posta" class="input-dark mb-3">
-            <input id="ap" type="password" placeholder="Şifre" class="input-dark mb-6">
-            <button id="authBtn" onclick="window.authAction()" class="w-full bg-orange-500 text-black py-4 rounded-2xl font-black uppercase">Devam Et</button>
-            <button onclick="window.closeModal('authModal')" class="mt-4 text-[10px] text-gray-500 uppercase">Kapat</button>
+            <div class="space-y-4">
+                <input id="ae" type="email" placeholder="E-posta" class="input-dark text-center">
+                <input id="ap" type="password" placeholder="Şifre" class="input-dark text-center">
+                <button id="authBtn" onclick="window.authAction()" class="w-full bg-white text-black py-4 rounded-2xl font-black uppercase">DEVAM ET</button>
+            </div>
         </div>
     </div>
 
@@ -135,91 +116,80 @@
         const sbUrl = 'https://vkjodymflqhgaowqjoji.supabase.co';
         const sbKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZram9keW1mbHFoZ2Fvd3Fqb2ppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2NzYwNjEsImV4cCI6MjA4NzI1MjA2MX0.PqJvklvLka_LIqYJYmIEVGlmaw2Nh_zGt03JeZQGnVI';
         
+        const VIPS = ["berksplaysation@gmail.com"];
         const ADMINS = ["berksplaysation@gmail.com", "ardayilmaz1413@gmail.com"];
-        const VERIFY_TICK = " ✅";
 
         const app = initializeApp(fbConf);
         const auth = getAuth(app);
         const supabase = createClient(sbUrl, sbKey);
         
-        window.auth = auth;
-        window.signOut = signOut;
-        let user = null, allData = [], currentIlanId = null, base64 = "";
+        let user = null, allData = [], authMode = 'login', selectedType = 'satici', base64 = "", currentId = null;
 
-        window.closeModal = (id) => document.getElementById(id).classList.add('hidden');
-        
-        window.openPost = () => {
-            if(!user) { document.getElementById('authModal').classList.remove('hidden'); }
-            else if (!user.emailVerified) { alert("⚠️ E-posta doğrulanmamış! Spam klasörüne bak."); }
-            else { document.getElementById('postModal').classList.remove('hidden'); }
+        // MAİL YENİDEN GÖNDERME FONKSİYONU
+        window.resendVerify = async () => {
+            if(user) {
+                try {
+                    await sendEmailVerification(user);
+                    alert("Onay maili tekrar gönderildi! Spam klasörünü kontrol etmeyi unutma kanka.");
+                    document.getElementById('verifyBanner').innerText = "MAİL GÖNDERİLDİ! LÜTFEN KONTROL ET.";
+                } catch (e) { alert("Biraz bekle kanka, çok sık gönderme!"); }
+            }
         };
 
-        window.handleLogout = () => { signOut(window.auth).then(() => location.reload()); };
+        onAuthStateChanged(auth, async (u) => {
+            user = u;
+            const status = document.getElementById('userStatus');
+            const vBanner = document.getElementById('verifyBanner');
 
-        window.handleFile = (e) => {
-            const r = new FileReader();
-            r.onload = (ev) => {
-                base64 = ev.target.result;
-                document.getElementById('preV').innerHTML = `<img src="${base64}" class="w-16 h-16 rounded-xl border border-orange-500 mt-2 object-cover">`;
-            };
-            r.readAsDataURL(e.target.files[0]);
+            if(u) {
+                status.innerHTML = `<div onclick="window.handleLogout()" class="w-9 h-9 rounded-xl bg-orange-500 text-black flex items-center justify-center font-black cursor-pointer">${u.email[0].toUpperCase()}</div>`;
+                // E-posta onaylı değilse butonu göster
+                if(!u.emailVerified) vBanner.style.display = 'block';
+                else vBanner.style.display = 'none';
+            } else {
+                status.innerHTML = `<button onclick="document.getElementById('authModal').classList.remove('hidden')" class="text-[10px] font-black uppercase bg-orange-500 text-black px-4 py-2 rounded-xl">Giriş</button>`;
+                vBanner.style.display = 'none';
+            }
+            
+            const { data } = await supabase.from('ilanlar').select('*').order('created_at', { ascending: false });
+            allData = data || []; render(allData);
+        });
+
+        window.openPost = () => {
+            if(!user) document.getElementById('authModal').classList.remove('hidden');
+            else if(!user.emailVerified) alert("Önce e-postanı onaylaman lazım kanka! Yukarıdaki butonu kullan.");
+            else document.getElementById('postModal').classList.remove('hidden');
         };
 
         window.publishNow = async () => {
-            if(!user.emailVerified) return alert("E-posta doğrulanmamış!");
             if(!base64) return alert("Resim seç!");
             const btn = document.getElementById('pubBtn');
-            btn.disabled = true; btn.innerText = "YAYINLANIYOR...";
-            const phone = document.getElementById('pCountry').value + document.getElementById('pPhone').value.replace(/\D/g,'');
-            const trade = document.getElementById('pTrade').value;
-            const plat = document.getElementById('pPlat').value;
-
-            const { error } = await supabase.from('ilanlar').insert([{
+            btn.disabled = true;
+            await supabase.from('ilanlar').insert([{
                 baslik: document.getElementById('pTitle').value,
                 oyun: document.getElementById('pGame').value,
                 fiyat: Number(document.getElementById('pPrice').value),
-                telefon: phone,
+                telefon: document.getElementById('pPhone').value.replace(/\D/g,''),
                 user_email: user.email,
                 resim_urlleri: [base64],
-                aciklama: `[${trade}] [${plat}] ` + document.getElementById('pDesc').value
+                aciklama: `[${document.getElementById('pPlat').value}][${selectedType}] ` + document.getElementById('pDesc').value
             }]);
-
-            if(error) { alert(error.message); btn.disabled = false; }
-            else { location.reload(); }
-        };
-
-        window.deleteIlan = async () => {
-            if(!confirm("İlanı silmek istediğine emin misin?")) return;
-            await supabase.from('ilanlar').delete().eq('id', currentIlanId);
             location.reload();
         };
 
-        window.searchIlan = () => {
-            const v = document.getElementById('searchInput').value.toLowerCase();
-            render(allData.filter(i => i.baslik.toLowerCase().includes(v) || i.oyun.toLowerCase().includes(i.oyun.toLowerCase())));
-        };
-
-        window.filterData = (g, el) => {
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            el.classList.add('active');
-            render(g === 'Tümü' ? allData : allData.filter(i => i.oyun === g));
-        };
-
         function render(list) {
-            document.getElementById('ilanList').innerHTML = list.map(i => {
-                const isVerified = ADMINS.includes(i.user_email);
-                const trade = i.aciklama.includes("[ALICI]") ? "ALICI" : "SATICI";
+            const sorted = [...list].sort((a, b) => (VIPS.includes(b.user_email) ? 1 : 0) - (VIPS.includes(a.user_email) ? 1 : 0));
+            document.getElementById('ilanList').innerHTML = sorted.map(i => {
+                const isVip = VIPS.includes(i.user_email), isAlici = i.aciklama.includes("[alici]");
                 return `
-                <div class="itemsatis-card shadow-lg cursor-pointer transition active:scale-95" onclick="window.showDetail(${i.id})">
+                <div class="itemsatis-card ${isVip?'vip-card':''} cursor-pointer" onclick="window.showDetail(${i.id})">
                     <div class="h-32 relative">
+                        <div class="absolute top-2 left-2 px-2 py-0.5 rounded text-[7px] font-black uppercase z-10 ${isAlici?'bg-blue-600':'bg-green-600'} text-white">${isAlici?'ALICI':'SATICI'}</div>
                         <img src="${i.resim_urlleri[0]}" class="w-full h-full object-cover">
-                        <div class="absolute top-2 left-2 px-2 py-0.5 rounded bg-black/70 text-[8px] font-black uppercase">${trade}</div>
                     </div>
                     <div class="p-3">
-                        <div class="text-[7px] text-orange-500 font-black uppercase mb-1">${i.oyun}</div>
-                        <h3 class="text-[10px] font-bold truncate text-white">
-                            ${i.baslik}${isVerified ? VERIFY_TICK : ''}
-                        </h3>
+                        <div class="text-[7px] text-orange-500 font-black mb-1 uppercase">${i.oyun}</div>
+                        <h3 class="text-[10px] font-bold text-white truncate uppercase">${isVip?'👑 ':''}${i.baslik}${ADMINS.includes(i.user_email)?'<i class="fas fa-check-circle verify-badge"></i>':''}</h3>
                         <div class="mt-2 text-orange-500 font-black text-xs">${i.fiyat} ₺</div>
                     </div>
                 </div>`;
@@ -227,64 +197,65 @@
         }
 
         window.showDetail = (id) => {
-            currentIlanId = id;
+            currentId = id;
             const i = allData.find(x => x.id === id);
-            const isVerified = ADMINS.includes(i.user_email);
-            const isMine = user && i.user_email === user.email;
+            const isOwner = user && (i.user_email === user.email);
             const isTg = i.aciklama.includes("[tg]");
-            const trade = i.aciklama.includes("[ALICI]") ? "ALICI" : "SATICI";
-            
-            document.getElementById('detImg').innerHTML = `<img src="${i.resim_urlleri[0]}" class="w-full h-full object-cover">`;
-            document.getElementById('detTitle').innerHTML = i.baslik + (isVerified ? VERIFY_TICK : '');
-            document.getElementById('detDesc').innerText = i.aciklama.split("] ").pop();
-            const badge = document.getElementById('detBadge');
-            badge.innerText = trade;
-            badge.className = `inline-block px-3 py-1 rounded-full text-[10px] font-black mb-2 uppercase ${trade === 'ALICI' ? 'bg-blue-500/20 text-blue-500' : 'bg-green-500/20 text-green-500'}`;
-            document.getElementById('detAdminInfo').innerText = isVerified ? i.user_email + " (Onaylı)" : "";
-            document.getElementById('deleteBtn').classList.toggle('hidden', !isMine);
+            document.getElementById('detImg').innerHTML = `<img src="${i.resim_urlleri[0]}" class="w-full h-full object-cover rounded-2xl">`;
+            document.getElementById('detTitle').innerHTML = i.baslik;
+            document.getElementById('detDesc').innerText = i.aciklama.replace(/\[.*?\]/g, "").trim();
+            const delBtn = document.getElementById('deleteBtn');
+            if (isOwner) delBtn.classList.remove('hidden'); else delBtn.classList.add('hidden');
             const link = document.getElementById('detLink');
-            link.href = isTg ? `https://t.me/+${i.telefon}` : `https://wa.me/${i.telefon}`;
-            link.innerHTML = isTg ? `<i class="fab fa-telegram"></i> Telegram` : `<i class="fab fa-whatsapp"></i> WhatsApp`;
-            link.style.backgroundColor = isTg ? "#0088cc" : "#25D366";
+            if(isTg) { link.href=`https://t.me/+${i.telefon}`; link.innerHTML=`TELEGRAM`; link.className="w-full py-4 rounded-2xl font-black text-xs text-white bg-[#0088cc] flex justify-center items-center"; }
+            else { link.href=`https://wa.me/${i.telefon}`; link.innerHTML=`WHATSAPP`; link.className="w-full py-4 rounded-2xl font-black text-xs text-white bg-[#25D366] flex justify-center items-center"; }
             document.getElementById('detModal').classList.remove('hidden');
         };
 
-        onAuthStateChanged(auth, async (u) => {
-            user = u;
-            const status = document.getElementById('userStatus');
-            const vAlert = document.getElementById('verifyAlert');
-            if(u) {
-                status.innerHTML = `<div onclick="window.handleLogout()" class="w-9 h-9 rounded-full bg-orange-500 text-black flex items-center justify-center font-black cursor-pointer shadow-lg">${u.email[0].toUpperCase()}</div>`;
-                vAlert.style.display = u.emailVerified ? 'none' : 'block';
-            } else {
-                status.innerHTML = `<button onclick="document.getElementById('authModal').classList.remove('hidden')" class="text-xs font-black uppercase bg-white/5 px-4 py-2 rounded-xl">Giriş</button>`;
-                vAlert.style.display = 'none';
+        window.deleteIlanNow = async () => {
+            if(confirm("İlanı silmek istediğine emin misin?")) {
+                await supabase.from('ilanlar').delete().eq('id', currentId);
+                location.reload();
             }
-            const { data } = await supabase.from('ilanlar').select('*').order('created_at', { ascending: false });
-            allData = data || [];
-            render(allData);
-            document.getElementById('loader').style.display = 'none';
-        });
+        };
+
+        window.handleFile = (e) => {
+            const r = new FileReader();
+            r.onload = (ev) => { base64 = ev.target.result; document.getElementById('preV').innerHTML = `<img src="${base64}" class="w-16 h-16 rounded-xl border-2 border-orange-500 mt-2 object-cover">`; };
+            r.readAsDataURL(e.target.files[0]);
+        };
+
+        window.setType = (t) => {
+            selectedType = t;
+            document.getElementById('typeS').className = t === 'satici' ? "py-4 rounded-xl border font-black text-[10px] uppercase bg-green-500/10 border-green-500 text-green-500" : "py-4 rounded-xl border border-gray-700 text-gray-500 font-black text-[10px] uppercase";
+            document.getElementById('typeA').className = t === 'alici' ? "py-4 rounded-xl border font-black text-[10px] uppercase bg-blue-500/10 border-blue-500 text-blue-500" : "py-4 rounded-xl border border-gray-700 text-gray-500 font-black text-[10px] uppercase";
+        };
+
+        window.filterData = (g, el) => {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active'); render(g === 'Tümü' ? allData : allData.filter(i => i.oyun === g));
+        };
+
+        window.switchAuth = (m) => {
+            authMode = m;
+            document.getElementById('tabL').className = m === 'login' ? 'font-black uppercase text-xs text-orange-500' : 'font-black uppercase text-xs text-gray-600';
+            document.getElementById('tabR').className = m === 'register' ? 'font-black uppercase text-xs text-orange-500' : 'font-black uppercase text-xs text-gray-600';
+        };
 
         window.authAction = async () => {
             const e = document.getElementById('ae').value, p = document.getElementById('ap').value;
-            const btn = document.getElementById('authBtn');
-            btn.disabled = true; btn.innerText = "BEKLEYİN...";
-            try { 
-                await signInWithEmailAndPassword(auth, e, p); 
-                location.reload(); 
-            } catch (err) {
-                try {
-                    const res = await createUserWithEmailAndPassword(auth, e, p);
-                    await sendEmailVerification(res.user);
-                    alert("Kayıt başarılı! Lütfen mailini doğrula (Spam klasörüne bak)!");
-                    location.reload();
-                } catch (err2) {
-                    alert("Hata: " + err2.message);
-                    btn.disabled = false; btn.innerText = "Devam Et";
-                }
-            }
+            if(authMode === 'login') await signInWithEmailAndPassword(auth, e, p);
+            else { const res = await createUserWithEmailAndPassword(auth, e, p); await sendEmailVerification(res.user); alert("Mail onay!"); }
+            location.reload();
         };
+
+        window.handleLogout = () => signOut(auth).then(() => location.reload());
+        window.closeModal = (id) => document.getElementById(id).classList.add('hidden');
+
+        const vBox = document.getElementById('vipPlans');
+        [1, 2, 3, 6, 12].forEach(m => {
+            vBox.innerHTML += `<div class="min-w-[120px] bg-[#1a1d26] border border-white/5 p-4 rounded-2xl text-center"><div class="text-[8px] text-gray-500 font-black mb-1 uppercase">${m} AY VIP</div><div class="text-white font-black text-lg">${m*100}₺</div><button onclick="window.open('https://wa.me/12139004420','_blank')" class="mt-2 w-full bg-orange-500/10 text-orange-500 py-1.5 rounded-lg text-[8px] font-black uppercase">AL</button></div>`;
+        });
     </script>
 </body>
 </html>
