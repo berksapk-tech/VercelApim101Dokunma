@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>BerksShops | v121 Admin</title>
+    <title>BerksShops | v123 BS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -13,7 +13,6 @@
         .vip-card { position: relative; border: 2px solid transparent; background: linear-gradient(#1a1a1a, #1a1a1a) padding-box, linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #00ffff, #0000ff, #8b00ff) border-box; background-size: 200% auto; animation: rainbowBorder 3s linear infinite; }
         @keyframes rainbowBorder { to { background-position: 200% center; } }
         .rainbow-text { background: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #00ffff, #0000ff, #8b00ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-size: 300% auto; animation: rainbowText 2s linear infinite; font-weight: 900; }
-        @keyframes rainbowText { to { background-position: 300% center; } }
         .input-pro { background: #121212; border: 1px solid #222; color: white; padding: 12px; border-radius: 12px; outline: none; width: 100%; font-size: 13px; }
         .btn-main { background: linear-gradient(135deg, #ff8c00, #ff5f00); color: black; padding: 14px; border-radius: 12px; font-weight: 800; cursor: pointer; text-align: center; border: none; width: 100%; display: block; }
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(8px); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 15px; }
@@ -28,16 +27,16 @@
     <nav class="px-6 py-5 flex justify-between items-center glass sticky top-0 z-50">
         <div onclick="location.reload()" class="flex flex-col cursor-pointer">
             <span class="text-2xl font-black text-orange-500 italic uppercase leading-none">BERKS<span class="text-white">SHOPS</span></span>
-            <span class="text-[10px] font-bold text-gray-500 mt-1 uppercase">v121 Admin & Gaming</span>
+            <span class="text-[10px] font-bold text-gray-500 mt-1 uppercase">v123 Brawl Edition</span>
         </div>
         <div id="navRight"></div>
     </nav>
 
     <main class="max-w-7xl mx-auto px-4 mt-6 pb-32">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-            <a href="https://wa.me/12139004420?text=Selam%20Ben%201%20aylık%20Bir%20Vip%20Paket%20almak%20istyorum" class="glass p-3 rounded-xl flex justify-between items-center text-[10px] font-bold uppercase">1 AY <b class="text-orange-500">49 ₺</b></a>
-            <a href="https://wa.me/12139004420?text=Selam%20Ben%203%20aylık%20Bir%20Vip%20Paket%20almak%20istyorum" class="glass p-3 rounded-xl flex justify-between items-center text-[10px] font-bold uppercase">3 AY <b class="text-orange-500">129 ₺</b></a>
-            <a href="https://wa.me/12139004420?text=Selam%20Ben%2012%20aylık%20Bir%20Vip%20Paket%20almak%20istyorum" class="bg-orange-600/10 border border-orange-500/50 p-3 rounded-xl flex justify-between items-center text-[10px] font-bold uppercase">1 YIL <b class="text-orange-500">449 ₺</b></a>
+            <a href="https://wa.me/12139004420?text=Selam%20Ben%201%20aylık%20Bir%20Vip%20Paket%20almak%20istyorum" target="_blank" class="glass p-3 rounded-xl flex justify-between items-center text-[10px] font-bold uppercase">1 AY <b class="text-orange-500">49 ₺</b></a>
+            <a href="https://wa.me/12139004420?text=Selam%20Ben%203%20aylık%20Bir%20Vip%20Paket%20almak%20istyorum" target="_blank" class="glass p-3 rounded-xl flex justify-between items-center text-[10px] font-bold uppercase">3 AY <b class="text-orange-500">129 ₺</b></a>
+            <a href="https://wa.me/12139004420?text=Selam%20Ben%2012%20aylık%20Bir%20Vip%20Paket%20almak%20istyorum" target="_blank" class="bg-orange-600/10 border border-orange-500/50 p-3 rounded-xl flex justify-between items-center text-[10px] font-bold uppercase">1 YIL <b class="text-orange-500">449 ₺</b></a>
             <button onclick="toggleModal('redeemModal', true)" class="border border-dashed border-gray-700 p-3 rounded-xl text-[10px] font-bold text-gray-500 uppercase">Kupon Kullan</button>
         </div>
 
@@ -45,6 +44,7 @@
             <input id="searchQuery" oninput="applyFilters()" type="text" placeholder="İlan ara..." class="input-pro">
             <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
                 <button class="cat-btn active" onclick="setCat('Tümü', this)">Tümü</button>
+                <button class="cat-btn" onclick="setCat('Brawl Stars', this)">Brawl Stars</button>
                 <button class="cat-btn" onclick="setCat('PUBG Mobile', this)">PUBG Mobile</button>
                 <button class="cat-btn" onclick="setCat('Roblox', this)">Roblox</button>
                 <button class="cat-btn" onclick="setCat('Minecraft', this)">Minecraft</button>
@@ -58,42 +58,32 @@
                 <button class="cat-btn" onclick="setCat('Play Store', this)">Play Store</button>
             </div>
         </div>
-
         <div id="ilanlar" class="grid grid-cols-2 md:grid-cols-5 gap-4"></div>
     </main>
 
     <div id="adminModal" class="modal-overlay"><div class="glass p-8 rounded-3xl w-full max-w-xs text-center"><h2 class="text-red-500 font-black mb-6 uppercase">Admin Panel</h2><select id="genMonth" class="input-pro mb-4"><option value="1">1 AY VIP</option><option value="3">3 AY VIP</option><option value="12">12 AY VIP</option></select><button onclick="generateCode()" class="btn-main !bg-white !text-black">KUPON ÜRET</button><div id="lastCode" class="p-4 bg-black rounded-xl mt-4 font-mono text-orange-500 text-sm">---</div><button onclick="toggleModal('adminModal', false)" class="mt-4 text-xs text-gray-500 font-bold">KAPAT</button></div></div>
 
-    <div id="postModal" class="modal-overlay"><div class="glass p-8 rounded-3xl w-full max-w-md overflow-y-auto max-h-[90vh]"><h2 class="text-2xl font-black mb-6 text-orange-500 uppercase text-center">İlan Ver</h2>
-        <div class="space-y-4">
-            <input id="pTitle" type="text" placeholder="Başlık *" class="input-pro">
-            <select id="pGame" class="input-pro">
-                <option>PUBG Mobile</option><option>Roblox</option><option>Minecraft</option><option>Steam</option><option>Nintendo</option><option>Xbox</option><option>PlayStation</option><option>Instagram</option><option>TikTok</option><option>YouTube</option><option>Play Store</option>
-            </select>
-            <input id="pPrice" type="number" placeholder="Fiyat (₺) *" class="input-pro">
-            <div class="flex gap-2">
-                <select id="pPrefix" class="input-pro !w-[100px]"><option value="90">+90</option><option value="7">+7</option><option value="62">+62</option><option value="994">+994</option><option value="44">+44</option></select>
-                <input id="pPhone" type="tel" placeholder="WhatsApp *" class="input-pro flex-1">
-            </div>
-            <textarea id="pDesc" placeholder="Açıklama..." class="input-pro h-24"></textarea>
-            <input type="file" id="pFile" class="hidden" onchange="previewFile(this)">
-            <label for="pFile" class="w-full bg-gray-800 py-3 rounded-xl text-center block cursor-pointer text-xs font-bold uppercase text-white">Fotoğraf Ekle</label>
-            <div id="imgPreview" class="flex justify-center"></div>
-            <button onclick="publishIlan()" id="pubBtn" class="btn-main">YAYINLA</button>
-            <button onclick="toggleModal('postModal', false)" class="w-full text-xs text-gray-500">VAZGEÇ</button>
-        </div>
-    </div></div>
+    <div id="postModal" class="modal-overlay"><div class="glass p-8 rounded-3xl w-full max-w-md overflow-y-auto max-h-[90vh]"><h2 class="text-2xl font-black mb-6 text-orange-500 uppercase text-center">İlan Ver</h2><div class="space-y-4">
+        <input id="pTitle" type="text" placeholder="Başlık *" class="input-pro">
+        <select id="pGame" class="input-pro"><option>Brawl Stars</option><option>PUBG Mobile</option><option>Roblox</option><option>Minecraft</option><option>Steam</option><option>Nintendo</option><option>Xbox</option><option>PlayStation</option><option>Instagram</option><option>TikTok</option><option>YouTube</option><option>Play Store</option></select>
+        <input id="pPrice" type="number" placeholder="Fiyat (₺) *" class="input-pro">
+        <div class="flex gap-2"><select id="pPrefix" class="input-pro !w-[100px]"><option value="90">+90</option><option value="7">+7</option><option value="62">+62</option><option value="994">+994</option><option value="44">+44</option></select><input id="pPhone" type="tel" placeholder="WhatsApp *" class="input-pro flex-1"></div>
+        <textarea id="pDesc" placeholder="Açıklama..." class="input-pro h-24"></textarea>
+        <input type="file" id="pFile" class="hidden" onchange="previewFile(this)"><label for="pFile" class="w-full bg-gray-800 py-3 rounded-xl text-center block cursor-pointer text-xs font-bold uppercase text-white">Fotoğraf Ekle</label>
+        <div id="imgPreview" class="flex justify-center"></div><button onclick="publishIlan()" id="pubBtn" class="btn-main">YAYINLA</button><button onclick="toggleModal('postModal', false)" class="w-full text-xs text-gray-500">VAZGEÇ</button>
+    </div></div></div>
+
+    <div id="detailModal" class="modal-overlay"><div class="glass w-full max-w-md rounded-3xl overflow-hidden"><div id="dImg" class="w-full h-64 bg-cover bg-center"></div><div class="p-8"><div id="dVipLabel" class="hidden mb-2"></div><h2 id="dTitle" class="text-2xl font-black text-white uppercase mb-1"></h2><p id="dPrice" class="text-orange-500 font-black mb-4 text-3xl"></p><div id="dDesc" class="bg-black/30 p-4 rounded-xl text-sm text-gray-400 mb-8"></div><a id="dWP" href="#" target="_blank" class="btn-main">SİPARİŞ VER</a><button id="dDel" class="hidden w-full bg-red-600/10 text-red-500 py-3 rounded-xl mt-3 font-bold uppercase">İLAN SİL</button><button onclick="toggleModal('detailModal', false)" class="w-full text-xs mt-4 text-gray-700 font-bold uppercase">KAPAT</button></div></div></div>
 
     <div id="authModal" class="modal-overlay"><div class="glass p-8 rounded-3xl w-full max-w-sm text-center"><h2 id="authTitle" class="text-orange-500 font-black mb-6 uppercase">Giriş</h2><input id="authEmail" type="email" placeholder="E-posta" class="input-pro mb-3"><input id="authPass" type="password" placeholder="Şifre" class="input-pro mb-6"><button onclick="handleAuth()" class="btn-main mb-4">DEVAM ET</button><button onclick="switchAuth()" id="authSwitch" class="text-xs text-gray-500 uppercase">KAYIT OL</button></div></div>
     <div id="redeemModal" class="modal-overlay"><div class="glass p-8 rounded-3xl w-full max-w-xs text-center"><h2 class="text-orange-500 font-black mb-6 uppercase">Vip Kullan</h2><input id="rCode" type="text" placeholder="KUPON KODU" class="input-pro mb-6 text-center uppercase"><button onclick="claimCode()" class="btn-main">AKTİF ET</button><button onclick="toggleModal('redeemModal', false)" class="mt-4 text-xs text-gray-600">GERİ</button></div></div>
-    <div id="detailModal" class="modal-overlay"><div class="glass w-full max-w-md rounded-3xl overflow-hidden"><div id="dImg" class="w-full h-64 bg-cover bg-center"></div><div class="p-8"><div id="dVipLabel" class="hidden mb-2"></div><h2 id="dTitle" class="text-2xl font-black text-white uppercase mb-1"></h2><p id="dPrice" class="text-orange-500 font-black mb-4 text-3xl"></p><div id="dDesc" class="bg-black/30 p-4 rounded-xl text-sm text-gray-400 mb-8"></div><a id="dWP" href="#" target="_blank" class="btn-main">SİPARİŞ VER</a><button id="dDel" class="hidden w-full bg-red-600/10 text-red-500 py-3 rounded-xl mt-3 font-bold uppercase">İLAN SİL</button><button onclick="toggleModal('detailModal', false)" class="w-full text-xs mt-4 text-gray-700 font-bold uppercase">KAPAT</button></div></div></div>
 
     <button style="position:fixed; bottom:30px; right:30px; width:65px; height:65px; background:linear-gradient(135deg, #ff8c00, #ff5f00); border-radius:50%; color:black; z-index:10000;" onclick="openPlus()"><i class="fas fa-plus text-xl"></i></button>
     <button id="adminBtn" class="hidden" style="position:fixed; bottom:30px; left:30px; width:55px; height:55px; background:#1a1a1a; border: 2px solid #ef4444; border-radius:18px; color:#ef4444; z-index:10000;" onclick="toggleModal('adminModal', true)"><i class="fas fa-crown"></i></button>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
         const fbConf = { apiKey: "AIzaSyAmZ2X3yEMKa4rR-EneI-RVWOXmNWD8-6E", authDomain: "berksashare.firebaseapp.com", projectId: "berksashare" };
@@ -107,12 +97,7 @@
         const ADMIN_MAIL = "berksplaysation@gmail.com";
         let user = null, vips = [], allIlanlar = [], base64Img = "", isLogin = true, currentCat = "Tümü";
 
-        window.toggleModal = (id, open) => {
-            const el = document.getElementById(id);
-            if(open) el.classList.add('active');
-            else el.classList.remove('active');
-        };
-
+        window.toggleModal = (id, open) => { const el = document.getElementById(id); if(open) el.classList.add('active'); else el.classList.remove('active'); };
         window.openPlus = () => { if(!user || !user.emailVerified) toggleModal('authModal', true); else toggleModal('postModal', true); };
         window.switchAuth = () => { isLogin = !isLogin; document.getElementById('authTitle').innerText = isLogin ? "Giriş" : "Kayıt"; document.getElementById('authSwitch').innerText = isLogin ? "Kayıt Ol" : "Giriş Yap"; };
         window.previewFile = (input) => { const r = new FileReader(); r.onload = () => { base64Img = r.result; document.getElementById('imgPreview').innerHTML = `<img src="${base64Img}" class="h-24 rounded-xl mt-4 border border-orange-500">`; }; if(input.files[0]) r.readAsDataURL(input.files[0]); };
@@ -138,13 +123,7 @@
             render(allIlanlar);
         }
 
-        window.setCat = (cat, el) => {
-            currentCat = cat;
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            el.classList.add('active');
-            applyFilters();
-        };
-
+        window.setCat = (cat, el) => { currentCat = cat; document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active')); el.classList.add('active'); applyFilters(); };
         window.applyFilters = () => {
             const query = document.getElementById('searchQuery').value.toLowerCase();
             const filtered = allIlanlar.filter(i => {
@@ -158,8 +137,7 @@
         function render(list) {
             document.getElementById('ilanlar').innerHTML = list.map(i => {
                 const isVip = vips.includes(i.user_email);
-                return `
-                <div class="${isVip ? 'vip-card' : 'glass'} rounded-2xl overflow-hidden cursor-pointer" onclick='openDetail(${JSON.stringify(i)})'>
+                return `<div class="${isVip ? 'vip-card' : 'glass'} rounded-2xl overflow-hidden cursor-pointer" onclick='openDetail(${JSON.stringify(i)})'>
                     <img src="${i.resim_urlleri[0]}" class="w-full h-32 object-cover">
                     <div class="p-3">
                         ${isVip ? '<span class="text-[9px] rainbow-text block mb-1 uppercase">VIP 👑</span>' : ''}
@@ -183,18 +161,14 @@
             const del = document.getElementById('dDel');
             if(user && (user.email === i.user_email || user.email === ADMIN_MAIL)) {
                 del.classList.remove('hidden');
-                del.onclick = async () => { if(confirm("Silmek istediğine emin misin?")) { await supabase.from('ilanlar').delete().eq('id', i.id); location.reload(); } };
+                del.onclick = async () => { if(confirm("İlanı sil?")) { await supabase.from('ilanlar').delete().eq('id', i.id); location.reload(); } };
             } else del.classList.add('hidden');
             toggleModal('detailModal', true);
         };
 
         window.handleAuth = async () => {
             const e = document.getElementById('authEmail').value, p = document.getElementById('authPass').value;
-            try { 
-                if(isLogin) await signInWithEmailAndPassword(auth, e, p);
-                else { const c = await createUserWithEmailAndPassword(auth, e, p); await sendEmailVerification(c.user); alert("Email doğrulama gönderildi!"); }
-                location.reload();
-            } catch(err) { alert(err.message); }
+            try { if(isLogin) await signInWithEmailAndPassword(auth, e, p); else { const c = await createUserWithEmailAndPassword(auth, e, p); await sendEmailVerification(c.user); alert("Onay gönderildi!"); } location.reload(); } catch(err) { alert(err.message); }
         };
 
         window.publishIlan = async () => {
@@ -213,8 +187,8 @@
                 const newEnd = new Date(Date.now() + (k.month * 30 * 24 * 60 * 60 * 1000));
                 await supabase.from('profiles').upsert({ email: user.email, vip_until: newEnd.toISOString() });
                 await supabase.from('kuponlar').delete().eq('code', code);
-                alert("VIP Başarıyla Aktif Edildi!"); location.reload();
-            } else alert("Kupon geçersiz!");
+                alert("VIP Aktif!"); location.reload();
+            } else alert("Geçersiz!");
         };
 
         window.generateCode = async () => {
